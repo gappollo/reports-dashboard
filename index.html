@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #F0F2F5;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+  .topbar {
+    background: #1a1a2e;
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .topbar-brand { display: flex; align-items: center; gap: 12px; }
+  .topbar-logo {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, #2E75B6, #56CCF2);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .topbar-title { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 0.3px; }
+  .topbar-subtitle { color: #8899AA; font-size: 12px; margin-top: 1px; }
+  .topbar-meta { color: #8899AA; font-size: 12px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    border-left: 4px solid transparent;
+  }
+  .stat-card.blue   { border-left-color: #2E75B6; }
+  .stat-card.green  { border-left-color: #27AE60; }
+  .stat-card.orange { border-left-color: #E67E22; }
+  .stat-card.purple { border-left-color: #8E44AD; }
+  .stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .stat-value { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+  .stat-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
+  .section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #F0F2F5;
+  }
+  .section-header-left { display: flex; align-items: center; gap: 12px; }
+  .section-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .icon-blue   { background: #EBF3FB; }
+  .icon-green  { background: #EAFAF1; }
+  .icon-orange { background: #FEF9E7; }
+  .icon-purple { background: #F5EEF8; }
+  .icon-gray   { background: #F2F2F2; }
+  .section-title { font-size: 15px; font-weight: 600; color: #1a1a2e; }
+  .section-desc  { font-size: 12px; color: #888; margin-top: 2px; }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.3px; }
+  .badge-active  { background: #EAFAF1; color: #27AE60; }
+  .badge-warning { background: #FEF3CD; color: #D68910; }
+  .badge-gray    { background: #F2F2F2; color: #888; }
+  .report-table { width: 100%; border-collapse: collapse; }
+  .report-table th {
+    text-align: left;
+    padding: 10px 24px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+    background: #FAFBFC;
+    border-bottom: 1px solid #F0F2F5;
+  }
+  .report-table td {
+    padding: 14px 24px;
+    font-size: 13px;
+    border-bottom: 1px solid #F7F7F7;
+    vertical-align: middle;
+  }
+  .report-table tr:last-child td { border-bottom: none; }
+  .report-table tr:hover td { background: #FAFBFC; }
+  .file-name { font-weight: 500; color: #1a1a2e; display: flex; align-items: center; gap: 8px; }
+  .file-ext { font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; }
+  .ext-xlsx { background: #E8F5E9; color: #2E7D32; }
+  .ext-docx { background: #E3F2FD; color: #1565C0; }
+  .date-cell { color: #888; font-size: 12px; }
+  .new-badge { display: inline-block; font-size: 10px; font-weight: 700; background: #FDEDEC; color: #E74C3C; padding: 2px 8px; border-radius: 10px; }
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #2E75B6;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid #D0E6F7;
+    background: #F4F9FE;
+  }
+  .btn-download:hover { background: #EBF3FB; border-color: #2E75B6; }
+  .empty-row td { text-align: center; color: #bbb; font-size: 13px; padding: 28px; font-style: italic; }
+  .schedule-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    background: #F0F2F5;
+    color: #555;
+    padding: 3px 9px;
+    border-radius: 12px;
+  }
+  footer { text-align: center; padding: 32px; font-size: 12px; color: #bbb; }
+  @media (max-width: 700px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .topbar { padding: 0 16px; }
+    .container { padding: 16px 12px; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .report-table th, .report-table td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">&#9889;</div>
+    <div>
+      <div class="topbar-title">Reports Dashboard</div>
+      <div class="topbar-subtitle">Report e monitoraggi automatici</div>
+    </div>
+  </div>
+  <div class="topbar-meta" id="last-update">Aggiornato: 17 mar 2026</div>
+</div>
+
+<div class="container">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card blue">
+      <div class="stat-label">Cron attivi</div>
+      <div class="stat-value">4</div>
+      <div class="stat-sub">Tutti operativi</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Report oggi</div>
+      <div class="stat-value" id="stat-today">—</div>
+      <div class="stat-sub">In aggiornamento</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">File totali</div>
+      <div class="stat-value" id="stat-total">1</div>
+      <div class="stat-sub">Disponibili</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">Documenti</div>
+      <div class="stat-value">0</div>
+      <div class="stat-sub">Analisi one-shot</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: NYC EVENTS SCOUT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-icon icon-blue">&#128509;</div>
+        <div>
+          <div class="section-title">NYC Events Scout</div>
+          <div class="section-desc">Manhattan · Famiglia · 1–6 aprile 2026</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="schedule-pill">Daily 10:00 NY</span>
+        <span class="badge badge-active">Attivo</span>
+      </div>
+    </div>
+    <table class="report-table">
+      <tr>
+        <th>File</th><th>Data generazione</th><th>Nuovi eventi</th><th>Note</th><th></th>
+      </tr>
+      <tr>
+        <td class="file-name"><span class="file-ext ext-xlsx">xlsx</span> nyc_scout_report_20260313.xlsx</td>
+        <td class="date-cell">13 mar 2026</td>
+        <td style="color:#aaa;font-size:12px;">Report iniziale</td>
+        <td style="color:#888;font-size:12px;">MoMA, The Met, Whitney Biennial</td>
+        <td><a class="btn-download" href="files/nyc_scout_report_20260313.xlsx">&#8595; Scarica</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 2: TELCO B2B MONITOR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-icon icon-green">&#128225;</div>
+        <div>
+          <div class="section-title">Telco B2B Monitor — Novita' giornaliere</div>
+          <div class="section-desc">TIM · Fastweb+Vodafone · WindTre · Retelit · Aruba · Tessellis</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="schedule-pill">Daily 08:00 Roma</span>
+        <span class="badge badge-active">Attivo</span>
+      </div>
+    </div>
+    <table class="report-table">
+      <tr>
+        <th>File</th><th>Data generazione</th><th>Novita' trovate</th><th>Aree</th><th></th>
+      </tr>
+      <tr class="empty-row"><td colspan="5">Nessun report ancora generato — atteso domani alle 08:00</td></tr>
+    </table>
+  </div>
+
+  <!-- SECTION 3: RASSEGNA SOVRANITA' CLOUD -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-icon icon-orange">&#9729;</div>
+        <div>
+          <div class="section-title">Rassegna Sovranita' Cloud</div>
+          <div class="section-desc">Telco · Hyperscaler · Vendor · Policy EU (DORA, NIS2)</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="schedule-pill">Mar/Ven 09:00 Roma</span>
+        <span class="badge badge-active">Attivo</span>
+      </div>
+    </div>
+    <table class="report-table">
+      <tr>
+        <th>File</th><th>Data generazione</th><th>Articoli</th><th>Focus</th><th></th>
+      </tr>
+      <tr class="empty-row"><td colspan="5">Nessun report ancora caricato — prossima uscita martedi' 09:00</td></tr>
+    </table>
+  </div>
+
+  <!-- SECTION 4: MIMIT FAQ MONITOR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-icon icon-purple">&#127963;</div>
+        <div>
+          <div class="section-title">MIMIT FAQ Monitor</div>
+          <div class="section-desc">Voucher Cloud &amp; Cybersecurity — attivo fino al 23 aprile 2026</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="schedule-pill">Daily 08:00 Roma</span>
+        <span class="badge badge-active">Attivo</span>
+      </div>
+    </div>
+    <table class="report-table">
+      <tr>
+        <th>File</th><th>Data generazione</th><th>Variazioni</th><th>Note</th><th></th>
+      </tr>
+      <tr class="empty-row"><td colspan="5">Nessun report ancora caricato</td></tr>
+    </table>
+  </div>
+
+  <!-- SECTION 5: DOCUMENTI & ANALISI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-icon icon-gray">&#128196;</div>
+        <div>
+          <div class="section-title">Documenti &amp; Analisi</div>
+          <div class="section-desc">Report one-shot, analisi strategiche e documenti Word</div>
+        </div>
+      </div>
+      <span class="badge badge-gray">On demand</span>
+    </div>
+    <table class="report-table">
+      <tr>
+        <th>File</th><th>Data creazione</th><th>Tipo</th><th>Descrizione</th><th></th>
+      </tr>
+      <tr class="empty-row"><td colspan="5">Nessun documento ancora caricato</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  Dashboard gestita automaticamente dall'assistente AI &nbsp;&middot;&nbsp; I file vengono aggiunti ad ogni run dei cron
+</footer>
+
+</body>
+</html>
