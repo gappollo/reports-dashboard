@@ -5,292 +5,492 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reports Dashboard</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #F0F2F5;
-    color: #1a1a2e;
-    min-height: 100vh;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue:      #0050C8;
+    --blue-dark: #003A96;
+    --blue-mid:  #0066FF;
+    --blue-light:#E6EEFF;
+    --blue-pale: #F0F5FF;
+    --white:     #FFFFFF;
+    --gray-bg:   #F7F8FA;
+    --gray-line: #E8ECF2;
+    --gray-mid:  #BCC4D0;
+    --gray-text: #6B7A90;
+    --text:      #0A1628;
+    --green:     #00A878;
+    --green-bg:  #E6F7F3;
+    --orange:    #FF6B00;
+    --orange-bg: #FFF0E6;
+    --red:       #E8002D;
+    --red-bg:    #FDEDF0;
+    --radius:    10px;
+    --shadow:    0 2px 12px rgba(0,80,200,0.08);
+    --shadow-md: 0 4px 24px rgba(0,80,200,0.12);
   }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--gray-bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ─── TOPBAR ─── */
   .topbar {
-    background: #1a1a2e;
-    padding: 0 32px;
-    height: 60px;
+    background: var(--blue-dark);
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 40px;
     position: sticky;
     top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 200;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
   }
-  .topbar-brand { display: flex; align-items: center; gap: 12px; }
+  .topbar-left { display: flex; align-items: center; gap: 0; }
   .topbar-logo {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, #2E75B6, #56CCF2);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-right: 28px;
   }
-  .topbar-title { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 0.3px; }
-  .topbar-subtitle { color: #8899AA; font-size: 12px; margin-top: 1px; }
-  .topbar-meta { color: #8899AA; font-size: 12px; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
-  .stats-row {
+  .logo-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .logo-dot-1 { background: #FFFFFF; }
+  .logo-dot-2 { background: #56ACF2; }
+  .logo-dot-3 { background: #0099FF; }
+  .logo-name {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-left: 10px;
+  }
+  .topbar-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.15); margin: 0 24px; }
+  .topbar-nav { display: flex; gap: 4px; }
+  .nav-item {
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .nav-item:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .nav-item.active { color: #fff; background: rgba(255,255,255,0.12); }
+  .topbar-right { display: flex; align-items: center; gap: 16px; }
+  .topbar-update { color: rgba(255,255,255,0.5); font-size: 12px; }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 3px rgba(0,168,120,0.25);
+  }
+
+  /* ─── HERO BAND ─── */
+  .hero-band {
+    background: linear-gradient(100deg, var(--blue) 0%, var(--blue-mid) 100%);
+    padding: 36px 40px 32px;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; }
+  .hero-title {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .hero-title span { color: rgba(255,255,255,0.65); font-weight: 400; font-size: 22px; }
+  .hero-desc { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 8px; }
+  .hero-stats { display: flex; gap: 32px; }
+  .hero-stat-val { color: #fff; font-size: 30px; font-weight: 800; letter-spacing: -1px; }
+  .hero-stat-label { color: rgba(255,255,255,0.6); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+
+  /* ─── CONTAINER ─── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 40px 48px; }
+
+  /* ─── STATS ROW ─── */
+  .kpi-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 32px;
+    margin-bottom: 36px;
   }
-  .stat-card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 18px 20px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    border-left: 4px solid transparent;
+  .kpi-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--blue);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
-  .stat-card.blue   { border-left-color: #2E75B6; }
-  .stat-card.green  { border-left-color: #27AE60; }
-  .stat-card.orange { border-left-color: #E67E22; }
-  .stat-card.purple { border-left-color: #8E44AD; }
-  .stat-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .stat-value { font-size: 24px; font-weight: 700; color: #1a1a2e; }
-  .stat-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
+  .kpi-card.kpi-green  { border-top-color: var(--green); }
+  .kpi-card.kpi-orange { border-top-color: var(--orange); }
+  .kpi-card.kpi-red    { border-top-color: var(--red); }
+  .kpi-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-text); }
+  .kpi-value { font-size: 32px; font-weight: 800; color: var(--text); letter-spacing: -1px; line-height: 1; margin: 4px 0; }
+  .kpi-sub   { font-size: 12px; color: var(--gray-mid); }
+
+  /* ─── SECTION ─── */
   .section {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    margin-bottom: 24px;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
     overflow: hidden;
+    border: 1px solid var(--gray-line);
   }
   .section-header {
-    padding: 18px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #F0F2F5;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--gray-line);
+    background: var(--white);
   }
-  .section-header-left { display: flex; align-items: center; gap: 12px; }
-  .section-icon {
-    width: 38px; height: 38px;
+  .section-header-left { display: flex; align-items: center; gap: 14px; }
+  .section-icon-wrap {
+    width: 42px; height: 42px;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+    font-size: 20px;
     flex-shrink: 0;
   }
-  .icon-blue   { background: #EBF3FB; }
-  .icon-green  { background: #EAFAF1; }
-  .icon-orange { background: #FEF9E7; }
-  .icon-purple { background: #F5EEF8; }
-  .icon-gray   { background: #F2F2F2; }
-  .section-title { font-size: 15px; font-weight: 600; color: #1a1a2e; }
-  .section-desc  { font-size: 12px; color: #888; margin-top: 2px; }
-  .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.3px; }
-  .badge-active  { background: #EAFAF1; color: #27AE60; }
-  .badge-warning { background: #FEF3CD; color: #D68910; }
-  .badge-gray    { background: #F2F2F2; color: #888; }
-  .report-table { width: 100%; border-collapse: collapse; }
-  .report-table th {
-    text-align: left;
-    padding: 10px 24px;
+  .icon-blue   { background: var(--blue-light); }
+  .icon-green  { background: var(--green-bg); }
+  .icon-orange { background: var(--orange-bg); }
+  .icon-gray   { background: #F0F2F5; }
+  .icon-violet { background: #F0EEFF; }
+  .section-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
+  .section-desc  { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+  .section-meta  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  /* ─── BADGES ─── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+  .badge-active  { background: var(--green-bg);  color: var(--green); }
+  .badge-warning { background: var(--orange-bg); color: var(--orange); }
+  .badge-info    { background: var(--blue-light); color: var(--blue); }
+  .badge-gray    { background: #F0F2F5; color: var(--gray-text); }
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    background: currentColor;
+  }
+  .schedule-tag {
+    font-size: 11px;
+    color: var(--gray-text);
+    background: var(--gray-bg);
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-line);
+    font-weight: 500;
+  }
+
+  /* ─── TABLE ─── */
+  .report-table { width: 100%; border-collapse: collapse; }
+  .report-table thead tr { background: var(--gray-bg); }
+  .report-table th {
+    padding: 10px 28px;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #888;
-    background: #FAFBFC;
-    border-bottom: 1px solid #F0F2F5;
+    letter-spacing: 0.8px;
+    color: var(--gray-text);
+    text-align: left;
+    border-bottom: 1px solid var(--gray-line);
   }
   .report-table td {
-    padding: 14px 24px;
-    font-size: 13px;
-    border-bottom: 1px solid #F7F7F7;
+    padding: 15px 28px;
+    border-bottom: 1px solid var(--gray-bg);
     vertical-align: middle;
+    font-size: 13px;
   }
-  .report-table tr:last-child td { border-bottom: none; }
-  .report-table tr:hover td { background: #FAFBFC; }
-  .file-name { font-weight: 500; color: #1a1a2e; display: flex; align-items: center; gap: 8px; }
-  .file-ext { font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; }
-  .ext-xlsx { background: #E8F5E9; color: #2E7D32; }
-  .ext-docx { background: #E3F2FD; color: #1565C0; }
-  .date-cell { color: #888; font-size: 12px; }
-  .new-badge { display: inline-block; font-size: 10px; font-weight: 700; background: #FDEDEC; color: #E74C3C; padding: 2px 8px; border-radius: 10px; }
-  .btn-download {
+  .report-table tbody tr:last-child td { border-bottom: none; }
+  .report-table tbody tr:hover td { background: var(--blue-pale); }
+
+  .file-cell { display: flex; align-items: center; gap: 10px; }
+  .file-type {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    padding: 3px 6px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .type-xlsx { background: #E3F5EC; color: #1B8A52; border: 1px solid #B8E5CF; }
+  .type-docx { background: #E3EEFF; color: #1A4FBF; border: 1px solid #B8CCEE; }
+  .file-name-text { font-weight: 600; color: var(--text); font-size: 13px; }
+  .date-text  { color: var(--gray-text); font-size: 12px; }
+  .note-text  { color: var(--gray-text); font-size: 12px; }
+  .new-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--red-bg);
+    color: var(--red);
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid #F5C0CB;
+  }
+  .btn-dl {
     display: inline-flex;
     align-items: center;
     gap: 5px;
     font-size: 12px;
-    color: #2E75B6;
+    font-weight: 600;
+    color: var(--blue);
     text-decoration: none;
-    font-weight: 500;
-    padding: 5px 12px;
-    border-radius: 6px;
-    border: 1px solid #D0E6F7;
-    background: #F4F9FE;
+    padding: 6px 14px;
+    border-radius: 7px;
+    border: 1.5px solid var(--blue);
+    background: var(--white);
+    transition: all 0.15s;
+    white-space: nowrap;
   }
-  .btn-download:hover { background: #EBF3FB; border-color: #2E75B6; }
-  .empty-row td { text-align: center; color: #bbb; font-size: 13px; padding: 28px; font-style: italic; }
-  .schedule-pill {
-    display: inline-flex;
+  .btn-dl:hover { background: var(--blue); color: #fff; }
+  .empty-row td {
+    text-align: center;
+    color: var(--gray-mid);
+    font-size: 13px;
+    padding: 32px;
+    font-style: italic;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--white);
+    border-top: 1px solid var(--gray-line);
+    padding: 24px 40px;
+    display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    background: #F0F2F5;
-    color: #555;
-    padding: 3px 9px;
-    border-radius: 12px;
+    justify-content: space-between;
   }
-  footer { text-align: center; padding: 32px; font-size: 12px; color: #bbb; }
-  @media (max-width: 700px) {
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .topbar { padding: 0 16px; }
-    .container { padding: 16px 12px; }
-    .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .report-table th, .report-table td { padding: 10px 12px; }
+  .footer-left { font-size: 12px; color: var(--gray-text); }
+  .footer-logo { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-mid); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .topbar { padding: 0 20px; }
+    .topbar-nav, .topbar-divider { display: none; }
+    .hero-band { padding: 24px 20px; }
+    .hero-inner { flex-direction: column; gap: 20px; align-items: flex-start; }
+    .hero-stats { gap: 20px; }
+    .container { padding: 20px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .report-table th, .report-table td { padding: 10px 16px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
   }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-brand">
-    <div class="topbar-logo">&#9889;</div>
-    <div>
-      <div class="topbar-title">Reports Dashboard</div>
-      <div class="topbar-subtitle">Report e monitoraggi automatici</div>
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">
+      <span class="logo-dot logo-dot-1"></span>
+      <span class="logo-dot logo-dot-2"></span>
+      <span class="logo-dot logo-dot-3"></span>
+      <span class="logo-name">Reports</span>
+    </div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-nav">
+      <a class="nav-item active" href="#">Dashboard</a>
+      <a class="nav-item" href="#">Cron</a>
+      <a class="nav-item" href="#">Archivio</a>
     </div>
   </div>
-  <div class="topbar-meta" id="last-update">Aggiornato: 17 mar 2026</div>
+  <div class="topbar-right">
+    <span class="topbar-update">Aggiornato: 17 mar 2026</span>
+    <div class="status-dot" title="Tutti i sistemi operativi"></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-band">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-title">Report Dashboard <span>/ Monitoraggi automatici</span></div>
+      <div class="hero-desc">Briefing giornalieri, scouting eventi e analisi strategiche generate dall'AI</div>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">4</div>
+        <div class="hero-stat-label">Cron attivi</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">1</div>
+        <div class="hero-stat-label">File disponibili</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">1</div>
+        <div class="hero-stat-label">Documenti</div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- MAIN -->
 <div class="container">
 
-  <!-- STATS -->
-  <div class="stats-row">
-    <div class="stat-card blue">
-      <div class="stat-label">Cron attivi</div>
-      <div class="stat-value">4</div>
-      <div class="stat-sub">Tutti operativi</div>
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">Cron attivi</div>
+      <div class="kpi-value">4</div>
+      <div class="kpi-sub">Tutti operativi</div>
     </div>
-    <div class="stat-card green">
-      <div class="stat-label">Report oggi</div>
-      <div class="stat-value" id="stat-today">—</div>
-      <div class="stat-sub">In aggiornamento</div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-label">Report oggi</div>
+      <div class="kpi-value">—</div>
+      <div class="kpi-sub">In aggiornamento</div>
     </div>
-    <div class="stat-card orange">
-      <div class="stat-label">File totali</div>
-      <div class="stat-value" id="stat-total">1</div>
-      <div class="stat-sub">Disponibili</div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-label">File totali</div>
+      <div class="kpi-value">1</div>
+      <div class="kpi-sub">Report Excel</div>
     </div>
-    <div class="stat-card purple">
-      <div class="stat-label">Documenti</div>
-      <div class="stat-value">0</div>
-      <div class="stat-sub">Analisi one-shot</div>
+    <div class="kpi-card kpi-red" style="border-top-color:#1A4FBF;">
+      <div class="kpi-label">Documenti</div>
+      <div class="kpi-value">1</div>
+      <div class="kpi-sub">Analisi Word</div>
     </div>
   </div>
 
-  <!-- SECTION 1: NYC EVENTS SCOUT -->
+  <!-- SECTION 1: NYC SCOUT -->
   <div class="section">
     <div class="section-header">
       <div class="section-header-left">
-        <div class="section-icon icon-blue">&#128509;</div>
+        <div class="section-icon-wrap icon-blue">&#128509;</div>
         <div>
           <div class="section-title">NYC Events Scout</div>
-          <div class="section-desc">Manhattan · Famiglia · 1–6 aprile 2026</div>
+          <div class="section-desc">Manhattan &middot; Famiglia &middot; 1&ndash;6 aprile 2026</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span class="schedule-pill">Daily 10:00 NY</span>
-        <span class="badge badge-active">Attivo</span>
+      <div class="section-meta">
+        <span class="schedule-tag">Daily 10:00 NY</span>
+        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
       </div>
     </div>
     <table class="report-table">
-      <tr>
-        <th>File</th><th>Data generazione</th><th>Nuovi eventi</th><th>Note</th><th></th>
-      </tr>
-      <tr>
-        <td class="file-name"><span class="file-ext ext-xlsx">xlsx</span> nyc_scout_report_20260313.xlsx</td>
-        <td class="date-cell">13 mar 2026</td>
-        <td style="color:#aaa;font-size:12px;">Report iniziale</td>
-        <td style="color:#888;font-size:12px;">MoMA, The Met, Whitney Biennial</td>
-        <td><a class="btn-download" href="files/nyc_scout_report_20260313.xlsx">&#8595; Scarica</a></td>
-      </tr>
+      <thead><tr>
+        <th>File</th><th>Data</th><th>Novita'</th><th>Note</th><th></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="file-cell"><span class="file-type type-xlsx">xlsx</span><span class="file-name-text">nyc_scout_report_20260313.xlsx</span></div></td>
+          <td><span class="date-text">13 mar 2026</span></td>
+          <td><span class="badge badge-gray">Report iniziale</span></td>
+          <td><span class="note-text">MoMA, The Met, Whitney Biennial</span></td>
+          <td><a class="btn-dl" href="files/nyc_scout_report_20260313.xlsx">&#8595; Scarica</a></td>
+        </tr>
+      </tbody>
     </table>
   </div>
 
-  <!-- SECTION 2: TELCO B2B MONITOR -->
+  <!-- SECTION 2: TELCO B2B -->
   <div class="section">
     <div class="section-header">
       <div class="section-header-left">
-        <div class="section-icon icon-green">&#128225;</div>
+        <div class="section-icon-wrap icon-green">&#128225;</div>
         <div>
-          <div class="section-title">Telco B2B Monitor — Novita' giornaliere</div>
-          <div class="section-desc">TIM · Fastweb+Vodafone · WindTre · Retelit · Aruba · Tessellis</div>
+          <div class="section-title">Telco B2B Monitor &mdash; Novita' giornaliere</div>
+          <div class="section-desc">TIM &middot; Fastweb+Vodafone &middot; WindTre &middot; Retelit &middot; Aruba &middot; Tessellis</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span class="schedule-pill">Daily 08:00 Roma</span>
-        <span class="badge badge-active">Attivo</span>
+      <div class="section-meta">
+        <span class="schedule-tag">Daily 08:00 Roma</span>
+        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
       </div>
     </div>
     <table class="report-table">
-      <tr>
-        <th>File</th><th>Data generazione</th><th>Novita' trovate</th><th>Aree</th><th></th>
-      </tr>
-      <tr class="empty-row"><td colspan="5">Nessun report ancora generato — atteso domani alle 08:00</td></tr>
+      <thead><tr>
+        <th>File</th><th>Data</th><th>Novita'</th><th>Aree</th><th></th>
+      </tr></thead>
+      <tbody>
+        <tr class="empty-row"><td colspan="5">Nessun report ancora generato &mdash; atteso domani alle 08:00</td></tr>
+      </tbody>
     </table>
   </div>
 
-  <!-- SECTION 3: RASSEGNA SOVRANITA' CLOUD -->
+  <!-- SECTION 3: RASSEGNA CLOUD -->
   <div class="section">
     <div class="section-header">
       <div class="section-header-left">
-        <div class="section-icon icon-orange">&#9729;</div>
+        <div class="section-icon-wrap icon-orange">&#9729;</div>
         <div>
           <div class="section-title">Rassegna Sovranita' Cloud</div>
-          <div class="section-desc">Telco · Hyperscaler · Vendor · Policy EU (DORA, NIS2)</div>
+          <div class="section-desc">Telco &middot; Hyperscaler &middot; Vendor &middot; Policy EU (DORA, NIS2)</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span class="schedule-pill">Mar/Ven 09:00 Roma</span>
-        <span class="badge badge-active">Attivo</span>
+      <div class="section-meta">
+        <span class="schedule-tag">Mar / Ven 09:00 Roma</span>
+        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
       </div>
     </div>
     <table class="report-table">
-      <tr>
-        <th>File</th><th>Data generazione</th><th>Articoli</th><th>Focus</th><th></th>
-      </tr>
-      <tr class="empty-row"><td colspan="5">Nessun report ancora caricato — prossima uscita martedi' 09:00</td></tr>
+      <thead><tr>
+        <th>File</th><th>Data</th><th>Articoli</th><th>Focus</th><th></th>
+      </tr></thead>
+      <tbody>
+        <tr class="empty-row"><td colspan="5">Nessun report ancora caricato &mdash; prossima uscita martedi' 09:00</td></tr>
+      </tbody>
     </table>
   </div>
 
-  <!-- SECTION 4: MIMIT FAQ MONITOR -->
+  <!-- SECTION 4: MIMIT -->
   <div class="section">
     <div class="section-header">
       <div class="section-header-left">
-        <div class="section-icon icon-purple">&#127963;</div>
+        <div class="section-icon-wrap icon-violet">&#127963;</div>
         <div>
           <div class="section-title">MIMIT FAQ Monitor</div>
-          <div class="section-desc">Voucher Cloud &amp; Cybersecurity — attivo fino al 23 aprile 2026</div>
+          <div class="section-desc">Voucher Cloud &amp; Cybersecurity &mdash; attivo fino al 23 aprile 2026</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span class="schedule-pill">Daily 08:00 Roma</span>
-        <span class="badge badge-active">Attivo</span>
+      <div class="section-meta">
+        <span class="schedule-tag">Daily 08:00 Roma</span>
+        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
       </div>
     </div>
     <table class="report-table">
-      <tr>
-        <th>File</th><th>Data generazione</th><th>Variazioni</th><th>Note</th><th></th>
-      </tr>
-      <tr class="empty-row"><td colspan="5">Nessun report ancora caricato</td></tr>
+      <thead><tr>
+        <th>File</th><th>Data</th><th>Variazioni</th><th>Note</th><th></th>
+      </tr></thead>
+      <tbody>
+        <tr class="empty-row"><td colspan="5">Nessun report ancora caricato</td></tr>
+      </tbody>
     </table>
   </div>
 
-  <!-- SECTION 5: DOCUMENTI & ANALISI -->
+  <!-- SECTION 5: DOCUMENTI -->
   <div class="section">
     <div class="section-header">
       <div class="section-header-left">
-        <div class="section-icon icon-gray">&#128196;</div>
+        <div class="section-icon-wrap icon-gray">&#128196;</div>
         <div>
           <div class="section-title">Documenti &amp; Analisi</div>
           <div class="section-desc">Report one-shot, analisi strategiche e documenti Word</div>
@@ -299,18 +499,33 @@
       <span class="badge badge-gray">On demand</span>
     </div>
     <table class="report-table">
-      <tr>
-        <th>File</th><th>Data creazione</th><th>Tipo</th><th>Descrizione</th><th></th>
-      </tr>
-      <tr class="empty-row"><td colspan="5">Nessun documento ancora caricato</td></tr>
+      <thead><tr>
+        <th>File</th><th>Data</th><th>Tipo</th><th>Descrizione</th><th></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="file-cell"><span class="file-type type-docx">docx</span><span class="file-name-text">openclaw_enterprise_b2b_analysis_v2.docx</span></div></td>
+          <td><span class="date-text">17 mar 2026</span></td>
+          <td><span class="badge badge-info">Analisi B2B</span></td>
+          <td><span class="note-text">Use case, mercato, competition, confronto Aruba VPS</span></td>
+          <td><a class="btn-dl" href="files/openclaw_enterprise_b2b_analysis_v2.docx">&#8595; Scarica</a></td>
+        </tr>
+      </tbody>
     </table>
   </div>
 
-</div>
+</div><!-- /container -->
 
-<footer>
-  Dashboard gestita automaticamente dall'assistente AI &nbsp;&middot;&nbsp; I file vengono aggiunti ad ogni run dei cron
-</footer>
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">Dashboard gestita automaticamente dall&rsquo;assistente AI &nbsp;&middot;&nbsp; I file vengono aggiornati ad ogni run dei cron</div>
+  <div class="footer-logo">
+    <span class="logo-dot logo-dot-1" style="width:7px;height:7px;"></span>
+    <span class="logo-dot logo-dot-2" style="width:7px;height:7px;"></span>
+    <span class="logo-dot logo-dot-3" style="width:7px;height:7px;"></span>
+    Reports Dashboard
+  </div>
+</div>
 
 </body>
 </html>
