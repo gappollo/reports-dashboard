@@ -2,8 +2,25 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Reports Dashboard</title>
+
+<!-- PWA / iOS -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reports">
+<meta name="theme-color" content="#003A96">
+<meta name="description" content="Briefing giornalieri, scouting eventi e analisi AI">
+
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
+<!-- iOS Splash screens -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -25,243 +42,287 @@
     --orange-bg: #FFF0E6;
     --red:       #E8002D;
     --red-bg:    #FDEDF0;
-    --radius:    10px;
-    --shadow:    0 2px 12px rgba(0,80,200,0.08);
+    --safe-top:    env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left:   env(safe-area-inset-left, 0px);
+    --safe-right:  env(safe-area-inset-right, 0px);
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,80,200,0.08);
   }
+
+  html { height: -webkit-fill-available; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background: var(--gray-bg);
     color: var(--text);
     min-height: 100vh;
+    min-height: -webkit-fill-available;
     font-size: 14px;
     line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    padding-bottom: calc(60px + var(--safe-bottom));
   }
 
-  /* TOPBAR */
+  /* ── TOPBAR ── */
   .topbar {
     background: var(--blue-dark);
-    height: 64px;
+    height: calc(56px + var(--safe-top));
+    padding-top: var(--safe-top);
+    padding-left: calc(20px + var(--safe-left));
+    padding-right: calc(20px + var(--safe-right));
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
     position: sticky;
     top: 0;
     z-index: 200;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
   }
-  .topbar-left { display: flex; align-items: center; }
-  .topbar-logo { display: flex; align-items: center; gap: 4px; }
-  .logo-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .d1 { background: #FFFFFF; }
+  .tb-logo { display: flex; align-items: center; gap: 5px; }
+  .ld { width: 9px; height: 9px; border-radius: 50%; }
+  .d1 { background: #fff; }
   .d2 { background: #56ACF2; }
   .d3 { background: #0099FF; }
-  .logo-name { color: #fff; font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-left: 10px; }
-  .topbar-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.15); margin: 0 24px; }
-  .topbar-nav { display: flex; gap: 4px; }
-  .nav-a {
-    color: rgba(255,255,255,0.65);
-    font-size: 13px; font-weight: 500;
-    padding: 6px 14px; border-radius: 6px;
-    text-decoration: none; transition: all 0.15s;
-  }
-  .nav-a:hover { color: #fff; background: rgba(255,255,255,0.08); }
-  .nav-a.on    { color: #fff; background: rgba(255,255,255,0.12); }
-  .topbar-right { display: flex; align-items: center; gap: 14px; }
-  .topbar-ts { color: rgba(255,255,255,0.5); font-size: 12px; }
+  .tb-name { color: #fff; font-size: 17px; font-weight: 700; letter-spacing: -0.3px; margin-left: 8px; }
+  .tb-right { display: flex; align-items: center; gap: 10px; }
+  .tb-ts { color: rgba(255,255,255,0.5); font-size: 11px; }
   .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px rgba(0,168,120,0.25); }
 
-  /* HERO */
-  .hero {
-    background: linear-gradient(100deg, var(--blue) 0%, var(--blue-mid) 100%);
-    padding: 36px 40px 32px;
+  /* ── INSTALL BANNER ── */
+  #install-banner {
+    background: var(--blue-light);
+    border-bottom: 1px solid #C5D5F0;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    display: none;
   }
-  .hero-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-  .hero-title { color: #fff; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
-  .hero-sub   { color: rgba(255,255,255,0.65); font-weight: 400; font-size: 22px; }
-  .hero-desc  { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 8px; }
-  .hero-stats { display: flex; gap: 36px; flex-shrink: 0; }
-  .hstat-v { color: #fff; font-size: 30px; font-weight: 800; letter-spacing: -1px; }
-  .hstat-l { color: rgba(255,255,255,0.6); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+  #install-banner.show { display: flex; }
+  .install-text { font-size: 13px; color: var(--blue); font-weight: 500; flex: 1; }
+  .install-close { font-size: 20px; color: var(--gray-mid); background: none; border: none; cursor: pointer; padding: 4px; line-height: 1; }
 
-  /* CONTAINER */
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 40px 48px; }
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(110deg, var(--blue) 0%, var(--blue-mid) 100%);
+    padding: 24px 20px 22px;
+    padding-left: calc(20px + var(--safe-left));
+    padding-right: calc(20px + var(--safe-right));
+  }
+  .hero-title { color: #fff; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.15; }
+  .hero-sub   { color: rgba(255,255,255,0.65); font-weight: 400; font-size: 16px; }
+  .hero-desc  { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 6px; }
+  .hero-stats { display: flex; gap: 0; margin-top: 18px; background: rgba(0,0,0,0.15); border-radius: 10px; overflow: hidden; }
+  .hstat { flex: 1; padding: 12px 8px; text-align: center; }
+  .hstat + .hstat { border-left: 1px solid rgba(255,255,255,0.12); }
+  .hstat-v { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+  .hstat-l { color: rgba(255,255,255,0.6); font-size: 10px; text-transform: uppercase; letter-spacing: 0.7px; margin-top: 3px; }
 
-  /* KPI */
-  .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 36px; }
+  /* ── SCROLL AREA ── */
+  .scroll { padding: 20px 16px 8px; }
+  .scroll-l { padding-left: calc(16px + var(--safe-left)); padding-right: calc(16px + var(--safe-right)); }
+
+  /* ── KPI ROW ── */
+  .kpis { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 20px; }
   .kpi {
     background: var(--white); border-radius: var(--radius);
-    padding: 20px 22px; box-shadow: var(--shadow);
+    padding: 16px 18px; box-shadow: var(--shadow);
     border-top: 3px solid var(--blue);
   }
   .kpi.g { border-top-color: var(--green); }
   .kpi.o { border-top-color: var(--orange); }
   .kpi.v { border-top-color: #1A4FBF; }
-  .kpi-l { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-text); }
-  .kpi-n { font-size: 32px; font-weight: 800; color: var(--text); letter-spacing: -1px; line-height: 1; margin: 6px 0 4px; }
-  .kpi-s { font-size: 12px; color: var(--gray-mid); }
+  .kpi-l { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-text); }
+  .kpi-n { font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -1px; margin: 4px 0 2px; }
+  .kpi-s { font-size: 11px; color: var(--gray-mid); }
 
-  /* CARD */
-  .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; border: 1px solid var(--gray-line); }
-  .card-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 28px; border-bottom: 1px solid var(--gray-line);
-  }
-  .card-head-l { display: flex; align-items: center; gap: 14px; }
-  .cicon {
-    width: 42px; height: 42px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
-  }
+  /* ── CARD ── */
+  .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; border: 1px solid var(--gray-line); }
+  .card-head { padding: 16px 18px 14px; border-bottom: 1px solid var(--gray-line); }
+  .card-head-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .card-head-l { display: flex; align-items: flex-start; gap: 12px; }
+  .cicon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
   .ci-blue   { background: var(--blue-light); }
   .ci-green  { background: var(--green-bg); }
   .ci-orange { background: var(--orange-bg); }
   .ci-violet { background: #F0EEFF; }
   .ci-gray   { background: #F0F2F5; }
-  .card-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
-  .card-desc  { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
-  .card-meta  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; margin-top: 2px; }
+  .card-desc  { font-size: 12px; color: var(--gray-text); margin-top: 3px; line-height: 1.3; }
+  .card-meta  { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 
-  /* BADGES */
-  .badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 11px; font-weight: 600;
-    padding: 4px 10px; border-radius: 20px;
-  }
+  /* ── BADGES ── */
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 20px; }
   .b-active  { background: var(--green-bg);  color: var(--green); }
   .b-info    { background: var(--blue-light); color: var(--blue); }
   .b-gray    { background: #F0F2F5; color: var(--gray-text); }
   .b-new     { background: var(--red-bg); color: var(--red); border: 1px solid #F5C0CB; }
-  .b-dot     { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
-  .sched {
-    font-size: 11px; color: var(--gray-text); font-weight: 500;
-    background: var(--gray-bg); padding: 4px 10px;
-    border-radius: 20px; border: 1px solid var(--gray-line);
-  }
+  .b-dot     { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .sched { font-size: 11px; color: var(--gray-text); font-weight: 500; background: var(--gray-bg); padding: 4px 9px; border-radius: 20px; border: 1px solid var(--gray-line); }
 
-  /* TABLE */
-  .tbl { width: 100%; border-collapse: collapse; }
-  .tbl thead tr { background: var(--gray-bg); }
-  .tbl th {
-    padding: 10px 28px; font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.8px;
-    color: var(--gray-text); text-align: left;
+  /* ── FILE ROWS ── */
+  .file-list { display: flex; flex-direction: column; }
+  .file-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
     border-bottom: 1px solid var(--gray-line);
+    transition: background 0.1s;
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    color: inherit;
   }
-  .tbl td { padding: 14px 28px; border-bottom: 1px solid var(--gray-bg); vertical-align: middle; font-size: 13px; }
-  .tbl tbody tr:last-child td { border-bottom: none; }
-  .tbl tbody tr:hover td { background: var(--blue-pale); }
-
-  .fc { display: flex; align-items: center; gap: 10px; }
-  .ft { font-size: 9px; font-weight: 800; letter-spacing: 0.3px; padding: 3px 6px; border-radius: 5px; text-transform: uppercase; flex-shrink: 0; }
+  .file-row:last-child { border-bottom: none; }
+  .file-row:active { background: var(--blue-pale); }
+  .ft { font-size: 9px; font-weight: 800; letter-spacing: 0.3px; padding: 4px 7px; border-radius: 6px; text-transform: uppercase; flex-shrink: 0; }
   .ft-x { background: #E3F5EC; color: #1B8A52; border: 1px solid #B8E5CF; }
   .ft-d { background: #E3EEFF; color: #1A4FBF; border: 1px solid #B8CCEE; }
-  .fn  { font-weight: 600; color: var(--text); }
-  .dt  { color: var(--gray-text); font-size: 12px; }
-  .nt  { color: var(--gray-text); font-size: 12px; }
+  .file-info { flex: 1; min-width: 0; }
+  .fn { font-weight: 600; font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fd { font-size: 11px; color: var(--gray-text); margin-top: 2px; }
+  .dl-arrow { color: var(--blue); font-size: 20px; flex-shrink: 0; font-weight: 300; }
 
-  .dl-btn {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 12px; font-weight: 600; color: var(--blue);
-    text-decoration: none; padding: 6px 14px;
-    border-radius: 7px; border: 1.5px solid var(--blue);
-    background: var(--white); transition: all 0.15s; white-space: nowrap;
+  .empty-row { padding: 28px 18px; text-align: center; color: var(--gray-mid); font-size: 13px; font-style: italic; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: calc(56px + var(--safe-bottom));
+    background: var(--white);
+    border-top: 1px solid var(--gray-line);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    padding-top: 8px;
+    padding-bottom: var(--safe-bottom);
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+    z-index: 100;
   }
-  .dl-btn:hover { background: var(--blue); color: #fff; }
-
-  .empty td { text-align: center; color: var(--gray-mid); font-size: 13px; padding: 32px; font-style: italic; }
-
-  /* FOOTER */
-  .footer {
-    background: var(--white); border-top: 1px solid var(--gray-line);
-    padding: 24px 40px;
-    display: flex; align-items: center; justify-content: space-between;
+  .bn-item {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    cursor: pointer; padding: 2px 12px; border-radius: 10px;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    text-decoration: none;
   }
-  .footer-l { font-size: 12px; color: var(--gray-text); }
-  .footer-r { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--gray-mid); }
+  .bn-icon { font-size: 22px; line-height: 1; }
+  .bn-label { font-size: 10px; color: var(--gray-text); font-weight: 500; }
+  .bn-item.active .bn-icon,
+  .bn-item.active .bn-label { color: var(--blue); }
+  .bn-item:active { background: var(--blue-light); }
 
-  @media (max-width: 768px) {
-    .topbar { padding: 0 16px; }
-    .topbar-nav, .topbar-sep { display: none; }
-    .hero { padding: 24px 20px; }
-    .hero-inner { flex-direction: column; align-items: flex-start; }
-    .wrap { padding: 16px; }
-    .kpis { grid-template-columns: repeat(2,1fr); }
-    .card-head { flex-direction: column; align-items: flex-start; gap: 12px; }
-    .tbl th, .tbl td { padding: 10px 14px; }
-    .footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+  /* ── SECTION TITLE ── */
+  .sec-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-text); margin: 20px 0 10px; padding: 0 2px; }
+  .sec-label:first-child { margin-top: 0; }
+
+  /* ── OFFLINE NOTICE ── */
+  #offline-bar {
+    display: none;
+    background: var(--orange);
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px;
+  }
+
+  /* ── DESKTOP (md+) ── */
+  @media (min-width: 640px) {
+    body { padding-bottom: 0; }
+    .bottom-nav { display: none; }
+    .topbar { height: 64px; padding: 0 40px; }
+    .hero { padding: 36px 40px 32px; }
+    .hero-stats { display: flex; gap: 36px; background: none; border-radius: 0; margin-top: 16px; }
+    .hstat { flex: none; text-align: left; padding: 0; }
+    .hstat + .hstat { border-left: none; }
+    .hstat-v { font-size: 30px; }
+    .scroll { max-width: 1100px; margin: 0 auto; padding: 32px 40px; }
+    .kpis { grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .card-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px; }
+    .card-head-top { flex: 1; margin-bottom: 0; }
+    .card-meta { margin-top: 0; }
+    .file-row { padding: 15px 28px; }
+    .file-row:hover { background: var(--blue-pale); }
+    .fn { white-space: normal; }
   }
 </style>
 </head>
 <body>
 
+<div id="offline-bar">Sei offline &mdash; visualizzando dati in cache</div>
+
+<!-- TOPBAR -->
 <nav class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-logo">
-      <span class="logo-dot d1"></span><span class="logo-dot d2"></span><span class="logo-dot d3"></span>
-      <span class="logo-name">Reports</span>
-    </div>
-    <div class="topbar-sep"></div>
-    <div class="topbar-nav">
-      <a class="nav-a on" href="#">Dashboard</a>
-      <a class="nav-a" href="#">Cron</a>
-      <a class="nav-a" href="#">Archivio</a>
-    </div>
+  <div class="tb-logo">
+    <span class="ld d1"></span><span class="ld d2"></span><span class="ld d3"></span>
+    <span class="tb-name">Reports</span>
   </div>
-  <div class="topbar-right">
-    <span class="topbar-ts">Aggiornato: 17 mar 2026</span>
-    <div class="live-dot" title="Tutti i sistemi operativi"></div>
+  <div class="tb-right">
+    <span class="tb-ts">17 mar 2026</span>
+    <div class="live-dot"></div>
   </div>
 </nav>
 
+<!-- INSTALL BANNER (iOS Safari hint) -->
+<div id="install-banner">
+  <span class="install-text">&#128247; Aggiungi alla Home Screen per usarla come app</span>
+  <button class="install-close" onclick="this.parentElement.classList.remove('show');localStorage.setItem('banner-dismissed','1')">&#215;</button>
+</div>
+
+<!-- HERO -->
 <div class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-title">Report Dashboard <span class="hero-sub">/ Monitoraggi automatici</span></div>
-      <div class="hero-desc">Briefing giornalieri, scouting eventi e analisi strategiche generate dall&rsquo;AI</div>
-    </div>
-    <div class="hero-stats">
-      <div><div class="hstat-v">4</div><div class="hstat-l">Cron attivi</div></div>
-      <div><div class="hstat-v">7</div><div class="hstat-l">File Excel</div></div>
-      <div><div class="hstat-v">1</div><div class="hstat-l">Documenti</div></div>
-    </div>
+  <div class="hero-title">Dashboard <span class="hero-sub">/ Reports AI</span></div>
+  <div class="hero-desc">Briefing giornalieri, scouting eventi e analisi strategiche</div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-v">4</div><div class="hstat-l">Cron attivi</div></div>
+    <div class="hstat"><div class="hstat-v">7</div><div class="hstat-l">File Excel</div></div>
+    <div class="hstat"><div class="hstat-v">1</div><div class="hstat-l">Documenti</div></div>
   </div>
 </div>
 
-<div class="wrap">
+<!-- MAIN SCROLL -->
+<div class="scroll scroll-l">
 
+  <!-- KPI -->
   <div class="kpis">
     <div class="kpi">
-      <div class="kpi-l">Cron attivi</div>
+      <div class="kpi-l">Cron</div>
       <div class="kpi-n">4</div>
-      <div class="kpi-s">Tutti operativi</div>
+      <div class="kpi-s">Tutti attivi</div>
     </div>
     <div class="kpi g">
-      <div class="kpi-l">Report oggi</div>
+      <div class="kpi-l">Oggi</div>
       <div class="kpi-n">3</div>
-      <div class="kpi-s">Consegnati stamani</div>
+      <div class="kpi-s">Report consegnati</div>
     </div>
     <div class="kpi o">
-      <div class="kpi-l">File totali</div>
+      <div class="kpi-l">Excel</div>
       <div class="kpi-n">7</div>
-      <div class="kpi-s">Report Excel</div>
+      <div class="kpi-s">File disponibili</div>
     </div>
     <div class="kpi v">
-      <div class="kpi-l">Documenti</div>
+      <div class="kpi-l">Docs</div>
       <div class="kpi-n">1</div>
       <div class="kpi-s">Analisi Word</div>
     </div>
   </div>
 
   <!-- NYC SCOUT -->
+  <div class="sec-label">&#128509; NYC Events Scout</div>
   <div class="card">
     <div class="card-head">
-      <div class="card-head-l">
-        <div class="cicon ci-blue">&#128509;</div>
-        <div>
-          <div class="card-title">NYC Events Scout</div>
-          <div class="card-desc">Manhattan &middot; Famiglia &middot; 1&ndash;6 aprile 2026</div>
+      <div class="card-head-top">
+        <div class="card-head-l">
+          <div class="cicon ci-blue">&#128509;</div>
+          <div>
+            <div class="card-title">NYC Events Scout</div>
+            <div class="card-desc">Manhattan &middot; Famiglia &middot; 1&ndash;6 aprile 2026</div>
+          </div>
         </div>
       </div>
       <div class="card-meta">
@@ -269,35 +330,38 @@
         <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
       </div>
     </div>
-    <table class="tbl">
-      <thead><tr><th>File</th><th>Data</th><th>Novita'</th><th>Note</th><th></th></tr></thead>
-      <tbody>
-        <tr>
-          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">nyc_scout_report_20260316.xlsx</span></div></td>
-          <td><span class="dt">16 mar 2026</span></td>
-          <td><span class="badge b-new">+aggiornato</span></td>
-          <td><span class="nt">MoMA, Whitney, Central Park</span></td>
-          <td><a class="dl-btn" href="files/nyc_scout_report_20260316.xlsx">&#8595; Scarica</a></td>
-        </tr>
-        <tr>
-          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">nyc_scout_report_20260314.xlsx</span></div></td>
-          <td><span class="dt">14 mar 2026</span></td>
-          <td><span class="badge b-gray">—</span></td>
-          <td><span class="nt">Report precedente</span></td>
-          <td><a class="dl-btn" href="files/nyc_scout_report_20260314.xlsx">&#8595; Scarica</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="file-list">
+      <a class="file-row" href="files/nyc_scout_report_20260316.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">nyc_scout_report_20260316.xlsx</div>
+          <div class="fd">16 mar 2026 &middot; MoMA, Whitney, Central Park</div>
+        </div>
+        <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+      <a class="file-row" href="files/nyc_scout_report_20260314.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">nyc_scout_report_20260314.xlsx</div>
+          <div class="fd">14 mar 2026 &middot; Report precedente</div>
+        </div>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+    </div>
   </div>
 
   <!-- TELCO B2B -->
+  <div class="sec-label">&#128225; Telco B2B Monitor</div>
   <div class="card">
     <div class="card-head">
-      <div class="card-head-l">
-        <div class="cicon ci-green">&#128225;</div>
-        <div>
-          <div class="card-title">Telco B2B Monitor &mdash; Novita' giornaliere</div>
-          <div class="card-desc">TIM &middot; Fastweb+Vodafone &middot; WindTre &middot; Retelit &middot; Aruba &middot; Tessellis</div>
+      <div class="card-head-top">
+        <div class="card-head-l">
+          <div class="cicon ci-green">&#128225;</div>
+          <div>
+            <div class="card-title">Telco B2B Monitor</div>
+            <div class="card-desc">TIM &middot; Fastweb+Vodafone &middot; WindTre &middot; Retelit &middot; Aruba &middot; Tessellis</div>
+          </div>
         </div>
       </div>
       <div class="card-meta">
@@ -305,57 +369,60 @@
         <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
       </div>
     </div>
-    <table class="tbl">
-      <thead><tr><th>File</th><th>Data</th><th>Novita'</th><th>Aree</th><th></th></tr></thead>
-      <tbody>
-        <tr>
-          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">telco_b2b_monitor.xlsx</span></div></td>
-          <td><span class="dt">17 mar 2026</span></td>
-          <td><span class="badge b-new">+novita'</span></td>
-          <td><span class="nt">Cloud, AI, Cybersecurity</span></td>
-          <td><a class="dl-btn" href="files/telco_b2b_monitor.xlsx">&#8595; Scarica</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="file-list">
+      <a class="file-row" href="files/telco_b2b_monitor.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">telco_b2b_monitor.xlsx</div>
+          <div class="fd">17 mar 2026 &middot; Cloud, AI, Cybersecurity</div>
+        </div>
+        <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+    </div>
   </div>
 
   <!-- RASSEGNA CLOUD -->
+  <div class="sec-label">&#9729; Rassegna Sovranita' Cloud</div>
   <div class="card">
     <div class="card-head">
-      <div class="card-head-l">
-        <div class="cicon ci-orange">&#9729;</div>
-        <div>
-          <div class="card-title">Rassegna Sovranita' Cloud</div>
-          <div class="card-desc">Telco &middot; Hyperscaler &middot; Vendor &middot; Policy EU (DORA, NIS2)</div>
+      <div class="card-head-top">
+        <div class="card-head-l">
+          <div class="cicon ci-orange">&#9729;</div>
+          <div>
+            <div class="card-title">Rassegna Sovranita' Cloud</div>
+            <div class="card-desc">Telco &middot; Hyperscaler &middot; Policy EU (DORA, NIS2)</div>
+          </div>
         </div>
       </div>
       <div class="card-meta">
-        <span class="sched">Mar / Ven 09:00 Roma</span>
+        <span class="sched">Mar / Ven 09:00</span>
         <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
       </div>
     </div>
-    <table class="tbl">
-      <thead><tr><th>File</th><th>Data</th><th>Articoli</th><th>Focus</th><th></th></tr></thead>
-      <tbody>
-        <tr>
-          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">rassegna_cloud_17032026.xlsx</span></div></td>
-          <td><span class="dt">17 mar 2026</span></td>
-          <td><span class="nt">Ultimo report</span></td>
-          <td><span class="nt">EURO-3C, NemoClaw, DORA</span></td>
-          <td><a class="dl-btn" href="files/rassegna_cloud_17032026.xlsx">&#8595; Scarica</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="file-list">
+      <a class="file-row" href="files/rassegna_cloud_17032026.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">rassegna_cloud_17032026.xlsx</div>
+          <div class="fd">17 mar 2026 &middot; EURO-3C, NemoClaw, DORA</div>
+        </div>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+    </div>
   </div>
 
   <!-- MIMIT -->
+  <div class="sec-label">&#127963; MIMIT FAQ Monitor</div>
   <div class="card">
     <div class="card-head">
-      <div class="card-head-l">
-        <div class="cicon ci-violet">&#127963;</div>
-        <div>
-          <div class="card-title">MIMIT FAQ Monitor</div>
-          <div class="card-desc">Voucher Cloud &amp; Cybersecurity &mdash; attivo fino al 23 aprile 2026</div>
+      <div class="card-head-top">
+        <div class="card-head-l">
+          <div class="cicon ci-violet">&#127963;</div>
+          <div>
+            <div class="card-title">MIMIT FAQ Monitor</div>
+            <div class="card-desc">Voucher Cloud &amp; Cybersecurity &mdash; fino al 23 apr 2026</div>
+          </div>
         </div>
       </div>
       <div class="card-meta">
@@ -363,71 +430,132 @@
         <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
       </div>
     </div>
-    <table class="tbl">
-      <thead><tr><th>File</th><th>Data</th><th>Variazioni</th><th>Note</th><th></th></tr></thead>
-      <tbody>
-        <tr>
-          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">mimit_faq_20260317.xlsx</span></div></td>
-          <td><span class="dt">17 mar 2026</span></td>
-          <td><span class="badge b-gray">Nessuna modifica</span></td>
-          <td><span class="nt">FAQ monitorate aggiornate</span></td>
-          <td><a class="dl-btn" href="files/mimit_faq_20260317.xlsx">&#8595; Scarica</a></td>
-        </tr>
-        <tr>
-          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">mimit_faq_20260316.xlsx</span></div></td>
-          <td><span class="dt">16 mar 2026</span></td>
-          <td><span class="badge b-gray">Nessuna modifica</span></td>
-          <td><span class="nt">—</span></td>
-          <td><a class="dl-btn" href="files/mimit_faq_20260316.xlsx">&#8595; Scarica</a></td>
-        </tr>
-        <tr>
-          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">mimit_faq_20260315.xlsx</span></div></td>
-          <td><span class="dt">15 mar 2026</span></td>
-          <td><span class="badge b-gray">Nessuna modifica</span></td>
-          <td><span class="nt">—</span></td>
-          <td><a class="dl-btn" href="files/mimit_faq_20260315.xlsx">&#8595; Scarica</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="file-list">
+      <a class="file-row" href="files/mimit_faq_20260317.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">mimit_faq_20260317.xlsx</div>
+          <div class="fd">17 mar 2026 &middot; Nessuna variazione</div>
+        </div>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+      <a class="file-row" href="files/mimit_faq_20260316.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">mimit_faq_20260316.xlsx</div>
+          <div class="fd">16 mar 2026</div>
+        </div>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+      <a class="file-row" href="files/mimit_faq_20260315.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">mimit_faq_20260315.xlsx</div>
+          <div class="fd">15 mar 2026</div>
+        </div>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+    </div>
   </div>
 
   <!-- DOCUMENTI -->
+  <div class="sec-label">&#128196; Documenti &amp; Analisi</div>
   <div class="card">
     <div class="card-head">
-      <div class="card-head-l">
-        <div class="cicon ci-gray">&#128196;</div>
-        <div>
-          <div class="card-title">Documenti &amp; Analisi</div>
-          <div class="card-desc">Report one-shot, analisi strategiche e documenti Word</div>
+      <div class="card-head-top">
+        <div class="card-head-l">
+          <div class="cicon ci-gray">&#128196;</div>
+          <div>
+            <div class="card-title">Documenti &amp; Analisi</div>
+            <div class="card-desc">Report one-shot e analisi strategiche</div>
+          </div>
         </div>
       </div>
-      <span class="badge b-gray">On demand</span>
+      <div class="card-meta">
+        <span class="badge b-gray">On demand</span>
+      </div>
     </div>
-    <table class="tbl">
-      <thead><tr><th>File</th><th>Data</th><th>Tipo</th><th>Descrizione</th><th></th></tr></thead>
-      <tbody>
-        <tr>
-          <td><div class="fc"><span class="ft ft-d">docx</span><span class="fn">openclaw_enterprise_b2b_analysis_v2.docx</span></div></td>
-          <td><span class="dt">17 mar 2026</span></td>
-          <td><span class="badge b-info">Analisi B2B</span></td>
-          <td><span class="nt">Use case, mercato, competition, confronto Aruba VPS</span></td>
-          <td><a class="dl-btn" href="files/openclaw_enterprise_b2b_analysis_v2.docx">&#8595; Scarica</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="file-list">
+      <a class="file-row" href="files/openclaw_enterprise_b2b_analysis_v2.docx" download>
+        <span class="ft ft-d">docx</span>
+        <div class="file-info">
+          <div class="fn">openclaw_enterprise_b2b_analysis_v2.docx</div>
+          <div class="fd">17 mar 2026 &middot; Analisi B2B &middot; Use case, mercato, competition, Aruba VPS</div>
+        </div>
+        <span class="badge b-info" style="flex-shrink:0">Word</span>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+    </div>
   </div>
 
-</div>
+</div><!-- /scroll -->
 
-<div class="footer">
-  <div class="footer-l">Dashboard gestita automaticamente dall&rsquo;assistente AI &nbsp;&middot;&nbsp; Aggiornata ad ogni run dei cron</div>
-  <div class="footer-r">
-    <span class="logo-dot d1" style="width:7px;height:7px;"></span>
-    <span class="logo-dot d2" style="width:7px;height:7px;"></span>
-    <span class="logo-dot d3" style="width:7px;height:7px;"></span>
-    Reports Dashboard
-  </div>
-</div>
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <a class="bn-item active" href="#">
+    <span class="bn-icon">&#127968;</span>
+    <span class="bn-label">Home</span>
+  </a>
+  <a class="bn-item" href="#" onclick="document.querySelector('.ci-blue').closest('.card').scrollIntoView({behavior:'smooth'});return false;">
+    <span class="bn-icon">&#128509;</span>
+    <span class="bn-label">NYC</span>
+  </a>
+  <a class="bn-item" href="#" onclick="document.querySelector('.ci-green').closest('.card').scrollIntoView({behavior:'smooth'});return false;">
+    <span class="bn-icon">&#128225;</span>
+    <span class="bn-label">Telco</span>
+  </a>
+  <a class="bn-item" href="#" onclick="document.querySelector('.ci-violet').closest('.card').scrollIntoView({behavior:'smooth'});return false;">
+    <span class="bn-icon">&#127963;</span>
+    <span class="bn-label">MIMIT</span>
+  </a>
+  <a class="bn-item" href="#" onclick="document.querySelector('.ci-gray').closest('.card').scrollIntoView({behavior:'smooth'});return false;">
+    <span class="bn-icon">&#128196;</span>
+    <span class="bn-label">Docs</span>
+  </a>
+</nav>
 
+<script>
+// Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/reports-dashboard/sw.js', { scope: '/reports-dashboard/' })
+      .then(r => console.log('SW ok', r.scope))
+      .catch(e => console.log('SW err', e));
+  });
+}
+
+// Offline banner
+window.addEventListener('online',  () => document.getElementById('offline-bar').style.display = 'none');
+window.addEventListener('offline', () => document.getElementById('offline-bar').style.display = 'block');
+
+// iOS install banner: show only if in Safari, not yet installed, not dismissed
+(function() {
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var isStandalone = window.navigator.standalone === true;
+  var dismissed = localStorage.getItem('banner-dismissed');
+  if (isIOS && !isStandalone && !dismissed) {
+    document.getElementById('install-banner').classList.add('show');
+  }
+})();
+
+// Bottom nav: highlight active section on scroll
+(function() {
+  var items = document.querySelectorAll('.bn-item');
+  function setActive(i) { items.forEach((el,idx) => el.classList.toggle('active', idx===i)); }
+  var sections = [
+    document.querySelector('.kpis'),
+    document.querySelector('.ci-blue') && document.querySelector('.ci-blue').closest('.card'),
+    document.querySelector('.ci-green') && document.querySelector('.ci-green').closest('.card'),
+    document.querySelector('.ci-violet') && document.querySelector('.ci-violet').closest('.card'),
+    document.querySelector('.ci-gray') && document.querySelector('.ci-gray').closest('.card'),
+  ];
+  window.addEventListener('scroll', function() {
+    var pos = window.scrollY + window.innerHeight / 3;
+    var cur = 0;
+    sections.forEach(function(s, i) { if (s && s.offsetTop <= pos) cur = i; });
+    setActive(cur);
+  }, { passive: true });
+})();
+</script>
 </body>
 </html>
