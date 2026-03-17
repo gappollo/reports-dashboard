@@ -27,7 +27,6 @@
     --red-bg:    #FDEDF0;
     --radius:    10px;
     --shadow:    0 2px 12px rgba(0,80,200,0.08);
-    --shadow-md: 0 4px 24px rgba(0,80,200,0.12);
   }
 
   body {
@@ -39,7 +38,7 @@
     line-height: 1.5;
   }
 
-  /* ─── TOPBAR ─── */
+  /* TOPBAR */
   .topbar {
     background: var(--blue-dark);
     height: 64px;
@@ -52,477 +51,380 @@
     z-index: 200;
     box-shadow: 0 2px 16px rgba(0,0,0,0.18);
   }
-  .topbar-left { display: flex; align-items: center; gap: 0; }
-  .topbar-logo {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    margin-right: 28px;
-  }
-  .logo-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-  }
-  .logo-dot-1 { background: #FFFFFF; }
-  .logo-dot-2 { background: #56ACF2; }
-  .logo-dot-3 { background: #0099FF; }
-  .logo-name {
-    color: #fff;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    margin-left: 10px;
-  }
-  .topbar-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.15); margin: 0 24px; }
+  .topbar-left { display: flex; align-items: center; }
+  .topbar-logo { display: flex; align-items: center; gap: 4px; }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .d1 { background: #FFFFFF; }
+  .d2 { background: #56ACF2; }
+  .d3 { background: #0099FF; }
+  .logo-name { color: #fff; font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-left: 10px; }
+  .topbar-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.15); margin: 0 24px; }
   .topbar-nav { display: flex; gap: 4px; }
-  .nav-item {
+  .nav-a {
     color: rgba(255,255,255,0.65);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    padding: 6px 14px; border-radius: 6px;
+    text-decoration: none; transition: all 0.15s;
   }
-  .nav-item:hover { color: #fff; background: rgba(255,255,255,0.08); }
-  .nav-item.active { color: #fff; background: rgba(255,255,255,0.12); }
-  .topbar-right { display: flex; align-items: center; gap: 16px; }
-  .topbar-update { color: rgba(255,255,255,0.5); font-size: 12px; }
-  .status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 0 3px rgba(0,168,120,0.25);
-  }
+  .nav-a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .nav-a.on    { color: #fff; background: rgba(255,255,255,0.12); }
+  .topbar-right { display: flex; align-items: center; gap: 14px; }
+  .topbar-ts { color: rgba(255,255,255,0.5); font-size: 12px; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px rgba(0,168,120,0.25); }
 
-  /* ─── HERO BAND ─── */
-  .hero-band {
+  /* HERO */
+  .hero {
     background: linear-gradient(100deg, var(--blue) 0%, var(--blue-mid) 100%);
     padding: 36px 40px 32px;
   }
-  .hero-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; }
-  .hero-title {
-    color: #fff;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1.1;
-  }
-  .hero-title span { color: rgba(255,255,255,0.65); font-weight: 400; font-size: 22px; }
-  .hero-desc { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 8px; }
-  .hero-stats { display: flex; gap: 32px; }
-  .hero-stat-val { color: #fff; font-size: 30px; font-weight: 800; letter-spacing: -1px; }
-  .hero-stat-label { color: rgba(255,255,255,0.6); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .hero-title { color: #fff; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
+  .hero-sub   { color: rgba(255,255,255,0.65); font-weight: 400; font-size: 22px; }
+  .hero-desc  { color: rgba(255,255,255,0.75); font-size: 14px; margin-top: 8px; }
+  .hero-stats { display: flex; gap: 36px; flex-shrink: 0; }
+  .hstat-v { color: #fff; font-size: 30px; font-weight: 800; letter-spacing: -1px; }
+  .hstat-l { color: rgba(255,255,255,0.6); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
 
-  /* ─── CONTAINER ─── */
-  .container { max-width: 1100px; margin: 0 auto; padding: 32px 40px 48px; }
+  /* CONTAINER */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 40px 48px; }
 
-  /* ─── STATS ROW ─── */
-  .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 36px;
-  }
-  .kpi-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    box-shadow: var(--shadow);
+  /* KPI */
+  .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 36px; }
+  .kpi {
+    background: var(--white); border-radius: var(--radius);
+    padding: 20px 22px; box-shadow: var(--shadow);
     border-top: 3px solid var(--blue);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
   }
-  .kpi-card.kpi-green  { border-top-color: var(--green); }
-  .kpi-card.kpi-orange { border-top-color: var(--orange); }
-  .kpi-card.kpi-red    { border-top-color: var(--red); }
-  .kpi-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-text); }
-  .kpi-value { font-size: 32px; font-weight: 800; color: var(--text); letter-spacing: -1px; line-height: 1; margin: 4px 0; }
-  .kpi-sub   { font-size: 12px; color: var(--gray-mid); }
+  .kpi.g { border-top-color: var(--green); }
+  .kpi.o { border-top-color: var(--orange); }
+  .kpi.v { border-top-color: #1A4FBF; }
+  .kpi-l { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-text); }
+  .kpi-n { font-size: 32px; font-weight: 800; color: var(--text); letter-spacing: -1px; line-height: 1; margin: 6px 0 4px; }
+  .kpi-s { font-size: 12px; color: var(--gray-mid); }
 
-  /* ─── SECTION ─── */
-  .section {
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-    overflow: hidden;
-    border: 1px solid var(--gray-line);
+  /* CARD */
+  .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; border: 1px solid var(--gray-line); }
+  .card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px; border-bottom: 1px solid var(--gray-line);
   }
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 28px;
-    border-bottom: 1px solid var(--gray-line);
-    background: var(--white);
-  }
-  .section-header-left { display: flex; align-items: center; gap: 14px; }
-  .section-icon-wrap {
-    width: 42px; height: 42px;
-    border-radius: 10px;
+  .card-head-l { display: flex; align-items: center; gap: 14px; }
+  .cicon {
+    width: 42px; height: 42px; border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
+    font-size: 20px; flex-shrink: 0;
   }
-  .icon-blue   { background: var(--blue-light); }
-  .icon-green  { background: var(--green-bg); }
-  .icon-orange { background: var(--orange-bg); }
-  .icon-gray   { background: #F0F2F5; }
-  .icon-violet { background: #F0EEFF; }
-  .section-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
-  .section-desc  { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
-  .section-meta  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .ci-blue   { background: var(--blue-light); }
+  .ci-green  { background: var(--green-bg); }
+  .ci-orange { background: var(--orange-bg); }
+  .ci-violet { background: #F0EEFF; }
+  .ci-gray   { background: #F0F2F5; }
+  .card-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
+  .card-desc  { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+  .card-meta  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-  /* ─── BADGES ─── */
+  /* BADGES */
   .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.2px;
-    white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
   }
-  .badge-active  { background: var(--green-bg);  color: var(--green); }
-  .badge-warning { background: var(--orange-bg); color: var(--orange); }
-  .badge-info    { background: var(--blue-light); color: var(--blue); }
-  .badge-gray    { background: #F0F2F5; color: var(--gray-text); }
-  .badge-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    display: inline-block;
-    background: currentColor;
-  }
-  .schedule-tag {
-    font-size: 11px;
-    color: var(--gray-text);
-    background: var(--gray-bg);
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--gray-line);
-    font-weight: 500;
+  .b-active  { background: var(--green-bg);  color: var(--green); }
+  .b-info    { background: var(--blue-light); color: var(--blue); }
+  .b-gray    { background: #F0F2F5; color: var(--gray-text); }
+  .b-new     { background: var(--red-bg); color: var(--red); border: 1px solid #F5C0CB; }
+  .b-dot     { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+  .sched {
+    font-size: 11px; color: var(--gray-text); font-weight: 500;
+    background: var(--gray-bg); padding: 4px 10px;
+    border-radius: 20px; border: 1px solid var(--gray-line);
   }
 
-  /* ─── TABLE ─── */
-  .report-table { width: 100%; border-collapse: collapse; }
-  .report-table thead tr { background: var(--gray-bg); }
-  .report-table th {
-    padding: 10px 28px;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--gray-text);
-    text-align: left;
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; }
+  .tbl thead tr { background: var(--gray-bg); }
+  .tbl th {
+    padding: 10px 28px; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--gray-text); text-align: left;
     border-bottom: 1px solid var(--gray-line);
   }
-  .report-table td {
-    padding: 15px 28px;
-    border-bottom: 1px solid var(--gray-bg);
-    vertical-align: middle;
-    font-size: 13px;
-  }
-  .report-table tbody tr:last-child td { border-bottom: none; }
-  .report-table tbody tr:hover td { background: var(--blue-pale); }
+  .tbl td { padding: 14px 28px; border-bottom: 1px solid var(--gray-bg); vertical-align: middle; font-size: 13px; }
+  .tbl tbody tr:last-child td { border-bottom: none; }
+  .tbl tbody tr:hover td { background: var(--blue-pale); }
 
-  .file-cell { display: flex; align-items: center; gap: 10px; }
-  .file-type {
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    padding: 3px 6px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-  .type-xlsx { background: #E3F5EC; color: #1B8A52; border: 1px solid #B8E5CF; }
-  .type-docx { background: #E3EEFF; color: #1A4FBF; border: 1px solid #B8CCEE; }
-  .file-name-text { font-weight: 600; color: var(--text); font-size: 13px; }
-  .date-text  { color: var(--gray-text); font-size: 12px; }
-  .note-text  { color: var(--gray-text); font-size: 12px; }
-  .new-pill {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    background: var(--red-bg);
-    color: var(--red);
-    padding: 2px 8px;
-    border-radius: 10px;
-    border: 1px solid #F5C0CB;
-  }
-  .btn-dl {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--blue);
-    text-decoration: none;
-    padding: 6px 14px;
-    border-radius: 7px;
-    border: 1.5px solid var(--blue);
-    background: var(--white);
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .btn-dl:hover { background: var(--blue); color: #fff; }
-  .empty-row td {
-    text-align: center;
-    color: var(--gray-mid);
-    font-size: 13px;
-    padding: 32px;
-    font-style: italic;
-  }
+  .fc { display: flex; align-items: center; gap: 10px; }
+  .ft { font-size: 9px; font-weight: 800; letter-spacing: 0.3px; padding: 3px 6px; border-radius: 5px; text-transform: uppercase; flex-shrink: 0; }
+  .ft-x { background: #E3F5EC; color: #1B8A52; border: 1px solid #B8E5CF; }
+  .ft-d { background: #E3EEFF; color: #1A4FBF; border: 1px solid #B8CCEE; }
+  .fn  { font-weight: 600; color: var(--text); }
+  .dt  { color: var(--gray-text); font-size: 12px; }
+  .nt  { color: var(--gray-text); font-size: 12px; }
 
-  /* ─── FOOTER ─── */
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; font-weight: 600; color: var(--blue);
+    text-decoration: none; padding: 6px 14px;
+    border-radius: 7px; border: 1.5px solid var(--blue);
+    background: var(--white); transition: all 0.15s; white-space: nowrap;
+  }
+  .dl-btn:hover { background: var(--blue); color: #fff; }
+
+  .empty td { text-align: center; color: var(--gray-mid); font-size: 13px; padding: 32px; font-style: italic; }
+
+  /* FOOTER */
   .footer {
-    background: var(--white);
-    border-top: 1px solid var(--gray-line);
+    background: var(--white); border-top: 1px solid var(--gray-line);
     padding: 24px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
   }
-  .footer-left { font-size: 12px; color: var(--gray-text); }
-  .footer-logo { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-mid); }
+  .footer-l { font-size: 12px; color: var(--gray-text); }
+  .footer-r { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--gray-mid); }
 
-  /* ─── RESPONSIVE ─── */
   @media (max-width: 768px) {
-    .topbar { padding: 0 20px; }
-    .topbar-nav, .topbar-divider { display: none; }
-    .hero-band { padding: 24px 20px; }
-    .hero-inner { flex-direction: column; gap: 20px; align-items: flex-start; }
-    .hero-stats { gap: 20px; }
-    .container { padding: 20px; }
-    .kpi-row { grid-template-columns: repeat(2, 1fr); }
-    .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-    .report-table th, .report-table td { padding: 10px 16px; }
-    .footer { flex-direction: column; gap: 8px; text-align: center; }
+    .topbar { padding: 0 16px; }
+    .topbar-nav, .topbar-sep { display: none; }
+    .hero { padding: 24px 20px; }
+    .hero-inner { flex-direction: column; align-items: flex-start; }
+    .wrap { padding: 16px; }
+    .kpis { grid-template-columns: repeat(2,1fr); }
+    .card-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .tbl th, .tbl td { padding: 10px 14px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
   }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <nav class="topbar">
   <div class="topbar-left">
     <div class="topbar-logo">
-      <span class="logo-dot logo-dot-1"></span>
-      <span class="logo-dot logo-dot-2"></span>
-      <span class="logo-dot logo-dot-3"></span>
+      <span class="logo-dot d1"></span><span class="logo-dot d2"></span><span class="logo-dot d3"></span>
       <span class="logo-name">Reports</span>
     </div>
-    <div class="topbar-divider"></div>
+    <div class="topbar-sep"></div>
     <div class="topbar-nav">
-      <a class="nav-item active" href="#">Dashboard</a>
-      <a class="nav-item" href="#">Cron</a>
-      <a class="nav-item" href="#">Archivio</a>
+      <a class="nav-a on" href="#">Dashboard</a>
+      <a class="nav-a" href="#">Cron</a>
+      <a class="nav-a" href="#">Archivio</a>
     </div>
   </div>
   <div class="topbar-right">
-    <span class="topbar-update">Aggiornato: 17 mar 2026</span>
-    <div class="status-dot" title="Tutti i sistemi operativi"></div>
+    <span class="topbar-ts">Aggiornato: 17 mar 2026</span>
+    <div class="live-dot" title="Tutti i sistemi operativi"></div>
   </div>
 </nav>
 
-<!-- HERO -->
-<div class="hero-band">
+<div class="hero">
   <div class="hero-inner">
     <div>
-      <div class="hero-title">Report Dashboard <span>/ Monitoraggi automatici</span></div>
-      <div class="hero-desc">Briefing giornalieri, scouting eventi e analisi strategiche generate dall'AI</div>
+      <div class="hero-title">Report Dashboard <span class="hero-sub">/ Monitoraggi automatici</span></div>
+      <div class="hero-desc">Briefing giornalieri, scouting eventi e analisi strategiche generate dall&rsquo;AI</div>
     </div>
     <div class="hero-stats">
-      <div>
-        <div class="hero-stat-val">4</div>
-        <div class="hero-stat-label">Cron attivi</div>
-      </div>
-      <div>
-        <div class="hero-stat-val">1</div>
-        <div class="hero-stat-label">File disponibili</div>
-      </div>
-      <div>
-        <div class="hero-stat-val">1</div>
-        <div class="hero-stat-label">Documenti</div>
-      </div>
+      <div><div class="hstat-v">4</div><div class="hstat-l">Cron attivi</div></div>
+      <div><div class="hstat-v">7</div><div class="hstat-l">File Excel</div></div>
+      <div><div class="hstat-v">1</div><div class="hstat-l">Documenti</div></div>
     </div>
   </div>
 </div>
 
-<!-- MAIN -->
-<div class="container">
+<div class="wrap">
 
-  <!-- KPI ROW -->
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-label">Cron attivi</div>
-      <div class="kpi-value">4</div>
-      <div class="kpi-sub">Tutti operativi</div>
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-l">Cron attivi</div>
+      <div class="kpi-n">4</div>
+      <div class="kpi-s">Tutti operativi</div>
     </div>
-    <div class="kpi-card kpi-green">
-      <div class="kpi-label">Report oggi</div>
-      <div class="kpi-value">—</div>
-      <div class="kpi-sub">In aggiornamento</div>
+    <div class="kpi g">
+      <div class="kpi-l">Report oggi</div>
+      <div class="kpi-n">3</div>
+      <div class="kpi-s">Consegnati stamani</div>
     </div>
-    <div class="kpi-card kpi-orange">
-      <div class="kpi-label">File totali</div>
-      <div class="kpi-value">1</div>
-      <div class="kpi-sub">Report Excel</div>
+    <div class="kpi o">
+      <div class="kpi-l">File totali</div>
+      <div class="kpi-n">7</div>
+      <div class="kpi-s">Report Excel</div>
     </div>
-    <div class="kpi-card kpi-red" style="border-top-color:#1A4FBF;">
-      <div class="kpi-label">Documenti</div>
-      <div class="kpi-value">1</div>
-      <div class="kpi-sub">Analisi Word</div>
+    <div class="kpi v">
+      <div class="kpi-l">Documenti</div>
+      <div class="kpi-n">1</div>
+      <div class="kpi-s">Analisi Word</div>
     </div>
   </div>
 
-  <!-- SECTION 1: NYC SCOUT -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-header-left">
-        <div class="section-icon-wrap icon-blue">&#128509;</div>
+  <!-- NYC SCOUT -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-l">
+        <div class="cicon ci-blue">&#128509;</div>
         <div>
-          <div class="section-title">NYC Events Scout</div>
-          <div class="section-desc">Manhattan &middot; Famiglia &middot; 1&ndash;6 aprile 2026</div>
+          <div class="card-title">NYC Events Scout</div>
+          <div class="card-desc">Manhattan &middot; Famiglia &middot; 1&ndash;6 aprile 2026</div>
         </div>
       </div>
-      <div class="section-meta">
-        <span class="schedule-tag">Daily 10:00 NY</span>
-        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
+      <div class="card-meta">
+        <span class="sched">Daily 10:00 NY</span>
+        <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
       </div>
     </div>
-    <table class="report-table">
-      <thead><tr>
-        <th>File</th><th>Data</th><th>Novita'</th><th>Note</th><th></th>
-      </tr></thead>
+    <table class="tbl">
+      <thead><tr><th>File</th><th>Data</th><th>Novita'</th><th>Note</th><th></th></tr></thead>
       <tbody>
         <tr>
-          <td><div class="file-cell"><span class="file-type type-xlsx">xlsx</span><span class="file-name-text">nyc_scout_report_20260313.xlsx</span></div></td>
-          <td><span class="date-text">13 mar 2026</span></td>
-          <td><span class="badge badge-gray">Report iniziale</span></td>
-          <td><span class="note-text">MoMA, The Met, Whitney Biennial</span></td>
-          <td><a class="btn-dl" href="files/nyc_scout_report_20260313.xlsx">&#8595; Scarica</a></td>
+          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">nyc_scout_report_20260316.xlsx</span></div></td>
+          <td><span class="dt">16 mar 2026</span></td>
+          <td><span class="badge b-new">+aggiornato</span></td>
+          <td><span class="nt">MoMA, Whitney, Central Park</span></td>
+          <td><a class="dl-btn" href="files/nyc_scout_report_20260316.xlsx">&#8595; Scarica</a></td>
+        </tr>
+        <tr>
+          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">nyc_scout_report_20260314.xlsx</span></div></td>
+          <td><span class="dt">14 mar 2026</span></td>
+          <td><span class="badge b-gray">—</span></td>
+          <td><span class="nt">Report precedente</span></td>
+          <td><a class="dl-btn" href="files/nyc_scout_report_20260314.xlsx">&#8595; Scarica</a></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- SECTION 2: TELCO B2B -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-header-left">
-        <div class="section-icon-wrap icon-green">&#128225;</div>
+  <!-- TELCO B2B -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-l">
+        <div class="cicon ci-green">&#128225;</div>
         <div>
-          <div class="section-title">Telco B2B Monitor &mdash; Novita' giornaliere</div>
-          <div class="section-desc">TIM &middot; Fastweb+Vodafone &middot; WindTre &middot; Retelit &middot; Aruba &middot; Tessellis</div>
+          <div class="card-title">Telco B2B Monitor &mdash; Novita' giornaliere</div>
+          <div class="card-desc">TIM &middot; Fastweb+Vodafone &middot; WindTre &middot; Retelit &middot; Aruba &middot; Tessellis</div>
         </div>
       </div>
-      <div class="section-meta">
-        <span class="schedule-tag">Daily 08:00 Roma</span>
-        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
+      <div class="card-meta">
+        <span class="sched">Daily 08:00 Roma</span>
+        <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
       </div>
     </div>
-    <table class="report-table">
-      <thead><tr>
-        <th>File</th><th>Data</th><th>Novita'</th><th>Aree</th><th></th>
-      </tr></thead>
-      <tbody>
-        <tr class="empty-row"><td colspan="5">Nessun report ancora generato &mdash; atteso domani alle 08:00</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- SECTION 3: RASSEGNA CLOUD -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-header-left">
-        <div class="section-icon-wrap icon-orange">&#9729;</div>
-        <div>
-          <div class="section-title">Rassegna Sovranita' Cloud</div>
-          <div class="section-desc">Telco &middot; Hyperscaler &middot; Vendor &middot; Policy EU (DORA, NIS2)</div>
-        </div>
-      </div>
-      <div class="section-meta">
-        <span class="schedule-tag">Mar / Ven 09:00 Roma</span>
-        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
-      </div>
-    </div>
-    <table class="report-table">
-      <thead><tr>
-        <th>File</th><th>Data</th><th>Articoli</th><th>Focus</th><th></th>
-      </tr></thead>
-      <tbody>
-        <tr class="empty-row"><td colspan="5">Nessun report ancora caricato &mdash; prossima uscita martedi' 09:00</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- SECTION 4: MIMIT -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-header-left">
-        <div class="section-icon-wrap icon-violet">&#127963;</div>
-        <div>
-          <div class="section-title">MIMIT FAQ Monitor</div>
-          <div class="section-desc">Voucher Cloud &amp; Cybersecurity &mdash; attivo fino al 23 aprile 2026</div>
-        </div>
-      </div>
-      <div class="section-meta">
-        <span class="schedule-tag">Daily 08:00 Roma</span>
-        <span class="badge badge-active"><span class="badge-dot"></span> Attivo</span>
-      </div>
-    </div>
-    <table class="report-table">
-      <thead><tr>
-        <th>File</th><th>Data</th><th>Variazioni</th><th>Note</th><th></th>
-      </tr></thead>
-      <tbody>
-        <tr class="empty-row"><td colspan="5">Nessun report ancora caricato</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- SECTION 5: DOCUMENTI -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-header-left">
-        <div class="section-icon-wrap icon-gray">&#128196;</div>
-        <div>
-          <div class="section-title">Documenti &amp; Analisi</div>
-          <div class="section-desc">Report one-shot, analisi strategiche e documenti Word</div>
-        </div>
-      </div>
-      <span class="badge badge-gray">On demand</span>
-    </div>
-    <table class="report-table">
-      <thead><tr>
-        <th>File</th><th>Data</th><th>Tipo</th><th>Descrizione</th><th></th>
-      </tr></thead>
+    <table class="tbl">
+      <thead><tr><th>File</th><th>Data</th><th>Novita'</th><th>Aree</th><th></th></tr></thead>
       <tbody>
         <tr>
-          <td><div class="file-cell"><span class="file-type type-docx">docx</span><span class="file-name-text">openclaw_enterprise_b2b_analysis_v2.docx</span></div></td>
-          <td><span class="date-text">17 mar 2026</span></td>
-          <td><span class="badge badge-info">Analisi B2B</span></td>
-          <td><span class="note-text">Use case, mercato, competition, confronto Aruba VPS</span></td>
-          <td><a class="btn-dl" href="files/openclaw_enterprise_b2b_analysis_v2.docx">&#8595; Scarica</a></td>
+          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">telco_b2b_monitor.xlsx</span></div></td>
+          <td><span class="dt">17 mar 2026</span></td>
+          <td><span class="badge b-new">+novita'</span></td>
+          <td><span class="nt">Cloud, AI, Cybersecurity</span></td>
+          <td><a class="dl-btn" href="files/telco_b2b_monitor.xlsx">&#8595; Scarica</a></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-</div><!-- /container -->
+  <!-- RASSEGNA CLOUD -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-l">
+        <div class="cicon ci-orange">&#9729;</div>
+        <div>
+          <div class="card-title">Rassegna Sovranita' Cloud</div>
+          <div class="card-desc">Telco &middot; Hyperscaler &middot; Vendor &middot; Policy EU (DORA, NIS2)</div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="sched">Mar / Ven 09:00 Roma</span>
+        <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
+      </div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>File</th><th>Data</th><th>Articoli</th><th>Focus</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">rassegna_cloud_17032026.xlsx</span></div></td>
+          <td><span class="dt">17 mar 2026</span></td>
+          <td><span class="nt">Ultimo report</span></td>
+          <td><span class="nt">EURO-3C, NemoClaw, DORA</span></td>
+          <td><a class="dl-btn" href="files/rassegna_cloud_17032026.xlsx">&#8595; Scarica</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<!-- FOOTER -->
+  <!-- MIMIT -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-l">
+        <div class="cicon ci-violet">&#127963;</div>
+        <div>
+          <div class="card-title">MIMIT FAQ Monitor</div>
+          <div class="card-desc">Voucher Cloud &amp; Cybersecurity &mdash; attivo fino al 23 aprile 2026</div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="sched">Daily 08:00 Roma</span>
+        <span class="badge b-active"><span class="b-dot"></span> Attivo</span>
+      </div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>File</th><th>Data</th><th>Variazioni</th><th>Note</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">mimit_faq_20260317.xlsx</span></div></td>
+          <td><span class="dt">17 mar 2026</span></td>
+          <td><span class="badge b-gray">Nessuna modifica</span></td>
+          <td><span class="nt">FAQ monitorate aggiornate</span></td>
+          <td><a class="dl-btn" href="files/mimit_faq_20260317.xlsx">&#8595; Scarica</a></td>
+        </tr>
+        <tr>
+          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">mimit_faq_20260316.xlsx</span></div></td>
+          <td><span class="dt">16 mar 2026</span></td>
+          <td><span class="badge b-gray">Nessuna modifica</span></td>
+          <td><span class="nt">—</span></td>
+          <td><a class="dl-btn" href="files/mimit_faq_20260316.xlsx">&#8595; Scarica</a></td>
+        </tr>
+        <tr>
+          <td><div class="fc"><span class="ft ft-x">xlsx</span><span class="fn">mimit_faq_20260315.xlsx</span></div></td>
+          <td><span class="dt">15 mar 2026</span></td>
+          <td><span class="badge b-gray">Nessuna modifica</span></td>
+          <td><span class="nt">—</span></td>
+          <td><a class="dl-btn" href="files/mimit_faq_20260315.xlsx">&#8595; Scarica</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DOCUMENTI -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-l">
+        <div class="cicon ci-gray">&#128196;</div>
+        <div>
+          <div class="card-title">Documenti &amp; Analisi</div>
+          <div class="card-desc">Report one-shot, analisi strategiche e documenti Word</div>
+        </div>
+      </div>
+      <span class="badge b-gray">On demand</span>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>File</th><th>Data</th><th>Tipo</th><th>Descrizione</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="fc"><span class="ft ft-d">docx</span><span class="fn">openclaw_enterprise_b2b_analysis_v2.docx</span></div></td>
+          <td><span class="dt">17 mar 2026</span></td>
+          <td><span class="badge b-info">Analisi B2B</span></td>
+          <td><span class="nt">Use case, mercato, competition, confronto Aruba VPS</span></td>
+          <td><a class="dl-btn" href="files/openclaw_enterprise_b2b_analysis_v2.docx">&#8595; Scarica</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
 <div class="footer">
-  <div class="footer-left">Dashboard gestita automaticamente dall&rsquo;assistente AI &nbsp;&middot;&nbsp; I file vengono aggiornati ad ogni run dei cron</div>
-  <div class="footer-logo">
-    <span class="logo-dot logo-dot-1" style="width:7px;height:7px;"></span>
-    <span class="logo-dot logo-dot-2" style="width:7px;height:7px;"></span>
-    <span class="logo-dot logo-dot-3" style="width:7px;height:7px;"></span>
+  <div class="footer-l">Dashboard gestita automaticamente dall&rsquo;assistente AI &nbsp;&middot;&nbsp; Aggiornata ad ogni run dei cron</div>
+  <div class="footer-r">
+    <span class="logo-dot d1" style="width:7px;height:7px;"></span>
+    <span class="logo-dot d2" style="width:7px;height:7px;"></span>
+    <span class="logo-dot d3" style="width:7px;height:7px;"></span>
     Reports Dashboard
   </div>
 </div>
