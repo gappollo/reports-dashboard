@@ -453,6 +453,18 @@
     }
     .kpis { grid-template-columns: repeat(4,1fr); gap: 16px; }
   }
+
+  /* File actions: Scarica + Apri */
+  .file-row { cursor: default; }
+  .file-actions { display: flex; gap: 6px; flex-shrink: 0; margin-left: auto; align-items: center; }
+  .fa-btn {
+    font-size: 11px; font-weight: 700; padding: 6px 11px; border-radius: 8px;
+    text-decoration: none; white-space: nowrap; transition: opacity 0.15s;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .fa-btn:active { opacity: 0.7; }
+  .fa-dl  { background: #E3F5EC; color: #1a7c43; }
+  .fa-open { background: #EAEEF5; color: #3a5fa8; }
 </style>
 </head>
 <body>
@@ -547,31 +559,43 @@
       </div>
     </div>
     <div class="file-list">
-      <a class="file-row" href="files/telco_b2b_monitor_20260408.xlsx" download>
+      <div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">telco_b2b_monitor_20260408.xlsx</div>
           <div class="fd">8 apr 2026 · 3 novità · TIM Enterprise, Retelit, Tessellis/Tiscali</div>
         </div>
         <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-<a class="file-row" href="files/telco_b2b_monitor.xlsx" download>
+      
+      <div class="file-actions">
+        <a href="files/telco_b2b_monitor_20260408.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/telco_b2b_monitor_20260408.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+<div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">telco_b2b_monitor.xlsx</div>
           <div class="fd">6 apr 2026 · 4 novità · TIM Enterprise, Retelit, Aruba S.p.A., Tessellis/Tiscali</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-<a class="file-row" href="files/telco_b2b_monitor.xlsx" download>
+      
+      <div class="file-actions">
+        <a href="files/telco_b2b_monitor.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/telco_b2b_monitor.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+<div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">telco_b2b_monitor.xlsx</div>
           <div class="fd">5 apr 2026 · 4 novità · TIM Enterprise, Fastweb+Vodafone, Tessellis/Tiscali, Aruba S.p.A.</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
+      
+      <div class="file-actions">
+        <a href="files/telco_b2b_monitor.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/telco_b2b_monitor.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
 
     </div>
   </div>
@@ -595,31 +619,43 @@
       </div>
     </div>
     <div class="file-list">
-      <a class="file-row" href="files/rassegna_cloud_07042026.xlsx" download>
+      <div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">rassegna_cloud_07042026.xlsx</div>
           <div class="fd">7 apr 2026 · European Edge Continuum, AWS Sovereign Cloud DE, DORA/NIS2/AI Act, Geopatriation, Fastweb/TIM/Vodafone/Telefónica/Deutsche Telekom</div>
         </div>
         <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-<a class="file-row" href="files/rassegna_cloud_03042026.xlsx" download>
+      
+      <div class="file-actions">
+        <a href="files/rassegna_cloud_07042026.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/rassegna_cloud_07042026.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+<div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">rassegna_cloud_03042026.xlsx</div>
           <div class="fd">03 apr 2026 · European Edge Continuum, EURO-3C, IBM Sovereign Core, DORA, NIS2, AI Act, Fastweb, TIM, Vodafone, Deutsche Telekom, Telefónica</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-<a class="file-row" href="files/rassegna_cloud_31032026.xlsx" download>
+      
+      <div class="file-actions">
+        <a href="files/rassegna_cloud_03042026.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/rassegna_cloud_03042026.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+<div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">rassegna_cloud_31032026.xlsx</div>
           <div class="fd">31 mar 2026 · EURO-3C, AWS European Sovereign Cloud, DORA, NIS2, AI Act, IBM Sovereign Core, MWC 2026</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
+      
+      <div class="file-actions">
+        <a href="files/rassegna_cloud_31032026.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/rassegna_cloud_31032026.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
 
     </div>
   </div>
@@ -643,31 +679,43 @@
       </div>
     </div>
     <div class="file-list">
-      <a class="file-row" href="files/mimit_faq_20260408.xlsx" download>
+      <div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">mimit_faq_20260408.xlsx</div>
           <div class="fd">8 apr 2026 · Nessuna variazione</div>
         </div>
         <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-<a class="file-row" href="files/mimit_faq_20260406.xlsx" download>
+      
+      <div class="file-actions">
+        <a href="files/mimit_faq_20260408.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/mimit_faq_20260408.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+<div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">mimit_faq_20260406.xlsx</div>
           <div class="fd">6 apr 2026 · Nessuna variazione</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-<a class="file-row" href="files/mimit_faq_20260405.xlsx" download>
+      
+      <div class="file-actions">
+        <a href="files/mimit_faq_20260406.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/mimit_faq_20260406.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+<div class="file-row">
         <span class="ft ft-x">xlsx</span>
         <div class="file-info">
           <div class="fn">mimit_faq_20260405.xlsx</div>
           <div class="fd">5 apr 2026 · Nessuna variazione</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
+      
+      <div class="file-actions">
+        <a href="files/mimit_faq_20260405.xlsx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/mimit_faq_20260405.xlsx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
 
     </div>
   </div>
@@ -690,57 +738,81 @@
       </div>
     </div>
     <div class="file-list">
-      <a class="file-row" href="files/scaleway_iliad_italia_cloud_2026.docx" download>
+      <div class="file-row">
         <span class="ft ft-d">docx</span>
         <div class="file-info">
           <div class="fn">scaleway_iliad_italia_cloud_2026.docx</div>
           <div class="fd">8 apr 2026 &middot; Scaleway (Iliad) &mdash; Sbarca in Italia: piattaforma cloud &amp; AI 100% europea</div>
         </div>
         <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-            <a class="file-row" href="files/registratori_telematici_2026.docx" download>
+      
+      <div class="file-actions">
+        <a href="files/scaleway_iliad_italia_cloud_2026.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/scaleway_iliad_italia_cloud_2026.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+            <div class="file-row">
         <span class="ft ft-d">docx</span>
         <div class="file-info">
           <div class="fn">registratori_telematici_2026.docx</div>
           <div class="fd">30 mar 2026 &middot; Registratori Telematici &amp; POS &mdash; Business, normativa e Cloud Fiscalization 2026</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-                  <a class="file-row" href="files/openclaw_b2b_usecases.docx" download>
+      
+      <div class="file-actions">
+        <a href="files/registratori_telematici_2026.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/registratori_telematici_2026.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+                  <div class="file-row">
         <span class="ft ft-d">docx</span>
         <div class="file-info">
           <div class="fn">openclaw_b2b_usecases.docx</div>
           <div class="fd">26 mar 2026 &middot; OpenClaw per le PMI &mdash; 10 use case B2B con esempi reali</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-      <a class="file-row" href="files/scaleway_analisi_cloud_b2b.docx" download>
+      
+      <div class="file-actions">
+        <a href="files/openclaw_b2b_usecases.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/openclaw_b2b_usecases.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+      <div class="file-row">
         <span class="ft ft-d">docx</span>
         <div class="file-info">
           <div class="fn">scaleway_analisi_cloud_b2b.docx</div>
           <div class="fd">30 mar 2026 &middot; Scaleway &mdash; Offerta tecnica, confronto Fastweb, partner ecosystem (aggiornato 30 mar)</div>
         </div>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-      <a class="file-row" href="files/openclaw_enterprise_b2b_analysis_v2.docx" download>
+      
+      <div class="file-actions">
+        <a href="files/scaleway_analisi_cloud_b2b.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/scaleway_analisi_cloud_b2b.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+      <div class="file-row">
         <span class="ft ft-d">docx</span>
         <div class="file-info">
           <div class="fn">openclaw_enterprise_b2b_analysis_v2.docx</div>
           <div class="fd">17 mar 2026 &middot; Analisi B2B &middot; Use case, mercato, competition</div>
         </div>
         <span class="badge b-info" style="flex-shrink:0">Word</span>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
-      <a class="file-row" href="files/AGCM_IC59_Quantum_Computing_Risposta_Telco.docx" download>
+      
+      <div class="file-actions">
+        <a href="files/openclaw_enterprise_b2b_analysis_v2.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/openclaw_enterprise_b2b_analysis_v2.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
+      <div class="file-row">
         <span class="ft ft-d">docx</span>
         <div class="file-info">
           <div class="fn">AGCM_IC59_Quantum_Computing_Risposta_Telco.docx</div>
           <div class="fd">01 apr 2026 &middot; AGCM IC59 &mdash; Risposta Telco alla consultazione pubblica Quantum Computing (scad. 30 apr 2026)</div>
         </div>
         <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
-        <span class="dl-arrow">&#8595;</span>
-      </a>
+      
+      <div class="file-actions">
+        <a href="files/AGCM_IC59_Quantum_Computing_Risposta_Telco.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+        <a href="files/AGCM_IC59_Quantum_Computing_Risposta_Telco.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+      </div>
+      </div>
     </div>
   </div>
 
