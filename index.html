@@ -467,9 +467,77 @@
   .fa-open { background: #EAEEF5; color: #3a5fa8; }
 
   .fw-mark-img { width: 32px; height: 32px; object-fit: contain; display: block; }
+
+  /* ── PASSWORD OVERLAY ── */
+  #pw-overlay {
+    position: fixed; inset: 0; z-index: 99999;
+    background: var(--black-mid);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0;
+  }
+  #pw-overlay.hidden { display: none; }
+  .pw-box {
+    background: #fff;
+    border-radius: 18px;
+    padding: 40px 36px 36px;
+    width: 340px;
+    max-width: 92vw;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .pw-logo {
+    font-size: 2.2rem; font-weight: 800; color: var(--black);
+    letter-spacing: -1px;
+  }
+  .pw-logo span { color: var(--yellow); }
+  .pw-subtitle {
+    font-size: 0.85rem; color: var(--text-soft);
+    text-align: center; margin-top: -10px;
+  }
+  .pw-input-wrap { width: 100%; position: relative; }
+  .pw-input-wrap input {
+    width: 100%; padding: 13px 44px 13px 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px; font-size: 1rem;
+    outline: none; transition: border-color 0.2s;
+    color: var(--text);
+  }
+  .pw-input-wrap input:focus { border-color: var(--yellow); }
+  .pw-input-wrap input.error { border-color: #e53935; }
+  .pw-eye {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    cursor: pointer; color: var(--text-soft); font-size: 1.1rem;
+    background: none; border: none; padding: 0;
+  }
+  .pw-btn {
+    width: 100%; padding: 13px;
+    background: var(--yellow); color: var(--black);
+    border: none; border-radius: 10px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .pw-btn:hover { background: var(--yellow-dark); }
+  .pw-error {
+    font-size: 0.82rem; color: #e53935;
+    text-align: center; min-height: 18px;
+  }
 </style>
 </head>
 <body>
+
+<!-- ── PASSWORD OVERLAY ── -->
+<div id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">Fast<span>web</span></div>
+    <div class="pw-subtitle">Area riservata — inserisci la password per accedere</div>
+    <div class="pw-input-wrap">
+      <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password" />
+      <button class="pw-eye" id="pw-eye" tabindex="-1" title="Mostra/nascondi">👁</button>
+    </div>
+    <button class="pw-btn" id="pw-submit">Accedi</button>
+    <div class="pw-error" id="pw-error"></div>
+  </div>
+</div>
 
 <!-- ANNOUNCE BAR -->
 <div class="announce-bar">
@@ -829,5 +897,54 @@
   </a>
 </nav>
 
+
+<script>
+(function(){
+  const HASH = '10b72f4e9794044c9b56d6bd6bf3659acea17fd3583c85f6ff9d7b7262ef2e0f';
+  const SESSION_KEY = 'fw_auth';
+
+  const overlay  = document.getElementById('pw-overlay');
+  const input    = document.getElementById('pw-input');
+  const btn      = document.getElementById('pw-submit');
+  const errorEl  = document.getElementById('pw-error');
+  const eyeBtn   = document.getElementById('pw-eye');
+
+  // Already authenticated this session?
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    overlay.classList.add('hidden');
+    return;
+  }
+
+  // SHA-256 via Web Crypto API
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256',
+      new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf))
+      .map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  async function tryLogin() {
+    const val = input.value;
+    if (!val) { errorEl.textContent = 'Inserisci la password.'; return; }
+    const h = await sha256(val);
+    if (h === HASH) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      overlay.classList.add('hidden');
+    } else {
+      errorEl.textContent = 'Password errata. Riprova.';
+      input.classList.add('error');
+      input.value = '';
+      setTimeout(() => input.classList.remove('error'), 1500);
+    }
+  }
+
+  btn.addEventListener('click', tryLogin);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+  eyeBtn.addEventListener('click', () => {
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+  input.focus();
+})();
+</script>
 </body>
 </html>
