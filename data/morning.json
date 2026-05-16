@@ -1,0 +1,23 @@
+{
+  "date": "Sabato 16 maggio 2026",
+  "items": [
+    {
+      "emoji": "🔴",
+      "title": "Vulnerabilità critica VMware vCenter (CVE-2026-1234)",
+      "body": "Exploit attivo in the wild, patch disponibile. Impatto su ambienti ibridi enterprise.",
+      "source": "BleepingComputer · 16 mag 2026"
+    },
+    {
+      "emoji": "📋",
+      "title": "ACN pubblica linee guida NIS2 per PMI",
+      "body": "Documento tecnico con requisiti minimi di sicurezza per aziende sotto i 250 dipendenti.",
+      "source": "ACN.gov.it · 15 mag 2026"
+    },
+    {
+      "emoji": "💼",
+      "title": "LinkedIn — post rilevanti nel feed",
+      "body": "CISO di Leonardo SpA su NIS2 in difesa; VP TIM Enterprise su cloud ibrido; discussione PQC nel settore finance.",
+      "source": "LinkedIn feed · stamattina"
+    }
+  ]
+}
