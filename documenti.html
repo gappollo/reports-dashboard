@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Documenti &amp; Analisi</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --yellow: #FDC400; --yellow-dark: #E6B000; --yellow-pale: #FFF8E0; --yellow-bg: #FFFBEB;
+    --black: #1A1A1A; --black-mid: #21272A;
+    --purple: #5B52CF; --purple-bg: #F0EFFE;
+    --blue-link: #0072F0; --blue-bg: #EBF4FF;
+    --green: #7ED321; --green-dark: #4A7A00; --green-bg: #F0F8E6;
+    --white: #FFFFFF; --bg: #F2F4F8; --bg-soft: #F8F9FB;
+    --border: #DDE1E6; --border-mid: #C1C7CD;
+    --text: #1A1A1A; --text-mid: #3D3D3D; --text-soft: #697077;
+    --safe-top: env(safe-area-inset-top,0px); --safe-bottom: env(safe-area-inset-bottom,0px);
+    --safe-left: env(safe-area-inset-left,0px); --safe-right: env(safe-area-inset-right,0px);
+    --radius: 14px; --radius-sm: 8px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07); --shadow-md: 0 4px 24px rgba(0,0,0,0.10);
+  }
+  html { height: -webkit-fill-available; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; min-height: -webkit-fill-available;
+    font-size: 14px; line-height: 1.5;
+    -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%;
+    padding-bottom: calc(64px + var(--safe-bottom));
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--black); height: 56px;
+    padding: 0 20px; padding-left: calc(20px + var(--safe-left)); padding-right: calc(20px + var(--safe-right));
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 200;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .tb-logo { display: flex; align-items: center; gap: 10px; }
+  .fw-mark {
+    width: 34px; height: 34px; background: var(--yellow); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: var(--black);
+    letter-spacing: -1px; font-style: italic; flex-shrink: 0;
+  }
+  .tb-name { color: #fff; font-size: 15px; font-weight: 700; }
+  .tb-sub { color: rgba(255,255,255,0.5); font-size: 11px; }
+  .tb-back { color: var(--yellow); font-size: 13px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+
+  /* ── SCROLL ── */
+  .scroll { overflow-y: auto; padding: 16px; max-width: 700px; margin: 0 auto; }
+
+  /* ── SEC LABEL ── */
+  .sec-label {
+    font-size: 11px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.9px; color: var(--text-soft);
+    margin: 20px 0 10px; padding: 0 2px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sec-label::before {
+    content: ''; display: inline-block; width: 3px; height: 14px;
+    background: var(--yellow); border-radius: 2px;
+  }
+  .sec-label:first-child { margin-top: 0; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white); border-radius: var(--radius);
+    box-shadow: var(--shadow); margin-bottom: 14px;
+    overflow: hidden; border: 1px solid var(--border);
+  }
+  .card-head {
+    padding: 16px 18px 14px; border-bottom: 1px solid var(--border);
+  }
+  .card-head-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .card-head-l { display: flex; align-items: flex-start; gap: 12px; }
+  .cicon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .ci-gr { background: #F2F4F8; }
+  .ci-y  { background: var(--yellow-pale); }
+  .ci-b  { background: var(--blue-bg); }
+  .ci-g  { background: var(--green-bg); }
+  .ci-p  { background: var(--purple-bg); }
+  .card-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .card-desc { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+  .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+  /* ── BADGES ── */
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.2px; white-space: nowrap; }
+  .b-new   { background: var(--yellow-pale); color: #8A6500; }
+  .b-gray  { background: #EAECF0; color: #697077; }
+  .b-blue  { background: var(--blue-bg); color: #004999; }
+  .b-green { background: var(--green-bg); color: var(--green-dark); }
+
+  /* ── FILE LIST ── */
+  .file-list { divide-y: 1px solid var(--border); }
+  .file-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 18px; border-bottom: 1px solid var(--border);
+    cursor: pointer; transition: background 0.12s; text-decoration: none; color: inherit;
+  }
+  .file-row:last-child { border-bottom: none; }
+  .file-row:hover { background: var(--bg-soft); }
+
+  .ft {
+    width: 38px; height: 38px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.3px;
+    text-transform: uppercase; flex-shrink: 0;
+  }
+  .ft-d  { background: #E8F0FE; color: #1A73E8; }
+  .ft-x  { background: #E6F4EA; color: #1E7E34; }
+  .ft-p  { background: #FCE8E6; color: #C5221F; }
+  .ft-gr { background: #F2F4F8; color: #697077; }
+
+  .file-info { flex: 1; min-width: 0; }
+  .fn { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fd { font-size: 11px; color: var(--text-soft); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .file-actions { display: flex; gap: 8px; margin-left: auto; flex-shrink: 0; }
+  .fa-btn {
+    padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+    border: 1px solid var(--border); color: var(--text-mid); background: var(--white);
+    transition: background 0.12s;
+  }
+  .fa-btn:hover { background: var(--bg); }
+  .fa-dl  { color: #004999; border-color: #C2D8F5; background: var(--blue-bg); }
+  .fa-open { color: #2D6A00; border-color: #C2E0B0; background: var(--green-bg); }
+  .dl-arrow { margin-left: auto; font-size: 18px; color: var(--text-soft); flex-shrink: 0; }
+
+  /* ── SEARCH BAR ── */
+  .search-wrap { position: relative; margin-bottom: 16px; }
+  .search-input {
+    width: 100%; padding: 11px 16px 11px 40px;
+    border-radius: 10px; border: 1.5px solid var(--border);
+    background: var(--white); font-size: 14px; color: var(--text);
+    outline: none; transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--yellow); }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: calc(60px + var(--safe-bottom));
+    background: var(--black); border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: flex-start; justify-content: space-around;
+    padding-top: 8px; padding-bottom: var(--safe-bottom);
+    padding-left: var(--safe-left); padding-right: var(--safe-right);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+  }
+  .bn-item {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    text-decoration: none; color: rgba(255,255,255,0.45);
+    font-size: 10px; font-weight: 600; letter-spacing: 0.2px;
+    min-width: 56px; text-align: center; position: relative; padding-top: 2px;
+    transition: color 0.15s;
+  }
+  .bn-item.active { color: var(--yellow); }
+  .bn-pip {
+    position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+    width: 20px; height: 3px; border-radius: 0 0 3px 3px;
+    background: var(--yellow); opacity: 0; transition: opacity 0.15s;
+  }
+  .bn-item.active .bn-pip { opacity: 1; }
+  .bn-icon { font-size: 20px; font-weight: 300; }
+  @media (min-width: 640px) { .bottom-nav { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD OVERLAY -->
+<div id="pw-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--black);display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:var(--bg);border-radius:20px;padding:32px 24px;width:100%;max-width:360px;text-align:center;">
+    <div style="font-size:32px;margin-bottom:12px;">🔒</div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px;">Documenti &amp; Analisi</div>
+    <div style="font-size:13px;color:var(--text-soft);margin-bottom:24px;">Accesso riservato</div>
+    <div style="position:relative;margin-bottom:12px;">
+      <input id="pw-input" type="password" placeholder="Password" autocomplete="current-password"
+        style="width:100%;padding:13px 44px 13px 16px;border-radius:10px;border:1.5px solid var(--border);font-size:15px;background:var(--white);color:var(--text);outline:none;">
+      <button id="pw-eye" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:var(--text-soft);">👁</button>
+    </div>
+    <div id="pw-error" style="color:#E03E3E;font-size:12px;min-height:18px;margin-bottom:10px;"></div>
+    <button id="pw-submit" style="width:100%;padding:14px;border-radius:10px;background:var(--yellow);border:none;font-size:15px;font-weight:700;color:var(--black);cursor:pointer;">Entra</button>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-logo">
+    <div class="fw-mark">f</div>
+    <div>
+      <div class="tb-name">Documenti &amp; Analisi</div>
+      <div class="tb-sub">Report one-shot e analisi strategiche</div>
+    </div>
+  </div>
+  <a href="index.html" class="tb-back">&#8592; Dashboard</a>
+</div>
+
+<div class="scroll">
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="search" placeholder="Cerca documento..." oninput="filterDocs()">
+  </div>
+
+  <div class="sec-label">Documenti &amp; Analisi</div>
+  <div class="card" id="docs-card">
+    <div class="card-head">
+      <div class="card-head-top">
+        <div class="card-head-l">
+          <div class="cicon ci-gr">&#128196;</div>
+          <div>
+            <div class="card-title">Documenti &amp; Analisi</div>
+            <div class="card-desc">Report one-shot e analisi strategiche</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="badge b-gray">On demand</span>
+      </div>
+    </div>
+    <div class="file-list" id="file-list">
+      <a class="file-row" href="files/token_usage.xlsx" download>
+        <span class="ft ft-x">xlsx</span>
+        <div class="file-info">
+          <div class="fn">token_usage.xlsx</div>
+          <div class="fd">2 mag 2026 &middot; Token &amp; costi giornalieri FastBot — aggiornamento automatico</div>
+        </div>
+        <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
+        <span class="dl-arrow">&#8595;</span>
+      </a>
+      <div class="file-row">
+        <span class="ft ft-d">docx</span>
+        <div class="file-info">
+          <div class="fn">scaleway_iliad_italia_cloud_2026.docx</div>
+          <div class="fd">8 apr 2026 &middot; Scaleway (Iliad) — Sbarca in Italia: piattaforma cloud &amp; AI 100% europea</div>
+        </div>
+        <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
+        <div class="file-actions">
+          <a href="files/scaleway_iliad_italia_cloud_2026.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+          <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fgappollo.github.io%2Freports-dashboard%2Ffiles%2Fscaleway_iliad_italia_cloud_2026.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="ft ft-d">docx</span>
+        <div class="file-info">
+          <div class="fn">registratori_telematici_2026.docx</div>
+          <div class="fd">30 mar 2026 &middot; Registratori Telematici &amp; POS — Business, normativa e Cloud Fiscalization 2026</div>
+        </div>
+        <div class="file-actions">
+          <a href="files/registratori_telematici_2026.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+          <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fgappollo.github.io%2Freports-dashboard%2Ffiles%2Fregistratori_telematici_2026.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="ft ft-d">docx</span>
+        <div class="file-info">
+          <div class="fn">openclaw_b2b_usecases.docx</div>
+          <div class="fd">7 apr 2026 &middot; OpenClaw AI Agents — Use cases B2B per PMI, retail e casse smart</div>
+        </div>
+        <div class="file-actions">
+          <a href="files/openclaw_b2b_usecases.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+          <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fgappollo.github.io%2Freports-dashboard%2Ffiles%2Fopenclaw_b2b_usecases.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="ft ft-d">docx</span>
+        <div class="file-info">
+          <div class="fn">AGCM_IC59_Quantum_Computing_Risposta_Telco.docx</div>
+          <div class="fd">30 apr 2026 &middot; AGCM IC59 Quantum Computing — Risposta Telco (scad. 30 apr 2026)</div>
+        </div>
+        <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
+        <div class="file-actions">
+          <a href="files/AGCM_IC59_Quantum_Computing_Risposta_Telco.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+          <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fgappollo.github.io%2Freports-dashboard%2Ffiles%2FAGCM_IC59_Quantum_Computing_Risposta_Telco.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="ft ft-d">docx</span>
+        <div class="file-info">
+          <div class="fn">secure_communications_overview.docx</div>
+          <div class="fd">23 apr 2026 &middot; Comunicazioni Sicure — Panoramica di mercato: Silentel, Wire, Olvid, Threema, Signal e altre soluzioni europee ed extraeuropee</div>
+        </div>
+        <span class="badge b-new" style="flex-shrink:0">Nuovo</span>
+        <div class="file-actions">
+          <a href="files/secure_communications_overview.docx" download class="fa-btn fa-dl">&#8595; Scarica</a>
+          <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fgappollo.github.io%2Freports-dashboard%2Ffiles%2Fsecure_communications_overview.docx" target="_blank" class="fa-btn fa-open">&#8599; Apri</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /scroll -->
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a class="bn-item" href="index.html">
+    <div class="bn-pip"></div>
+    <span class="bn-icon">&#127968;</span>
+    <span class="bn-label">Home</span>
+  </a>
+  <a class="bn-item" href="index.html#telco">
+    <div class="bn-pip"></div>
+    <span class="bn-icon">&#128225;</span>
+    <span class="bn-label">Telco</span>
+  </a>
+  <a class="bn-item" href="index.html#mimit">
+    <div class="bn-pip"></div>
+    <span class="bn-icon">&#127963;</span>
+    <span class="bn-label">MIMIT</span>
+  </a>
+  <a class="bn-item" href="rassegna.html">
+    <div class="bn-pip"></div>
+    <span class="bn-icon">&#128240;</span>
+    <span class="bn-label">Rassegna</span>
+  </a>
+  <a class="bn-item active" href="documenti.html">
+    <div class="bn-pip"></div>
+    <span class="bn-icon">&#128196;</span>
+    <span class="bn-label">Docs</span>
+  </a>
+</nav>
+
+<script>
+// ── AUTH ──
+(function(){
+  const HASH = '10b72f4e9794044c9b56d6bd6bf3659acea17fd3583c85f6ff9d7b7262ef2e0f';
+  const SESSION_KEY = 'fw_auth';
+  const overlay = document.getElementById('pw-overlay');
+  const input = document.getElementById('pw-input');
+  const btn = document.getElementById('pw-submit');
+  const errorEl = document.getElementById('pw-error');
+  const eyeBtn = document.getElementById('pw-eye');
+  if (sessionStorage.getItem(SESSION_KEY) === '1') { overlay.style.display='none'; return; }
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  async function tryLogin() {
+    const val = input.value;
+    if (!val) { errorEl.textContent='Inserisci la password.'; return; }
+    const h = await sha256(val);
+    if (h === HASH) {
+      sessionStorage.setItem(SESSION_KEY,'1');
+      overlay.style.display='none';
+    } else {
+      errorEl.textContent='Password errata. Riprova.';
+      input.value='';
+    }
+  }
+  btn.addEventListener('click', tryLogin);
+  input.addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
+  eyeBtn.addEventListener('click', () => { input.type = input.type==='password'?'text':'password'; });
+  input.focus();
+})();
+
+// ── SEARCH ──
+function filterDocs() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('#file-list .file-row').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
