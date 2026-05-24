@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voucher MIMIT Cloud & Cybersecurity | Fastweb+Vodafone</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --yellow:  #fdc400;
+    --yellow2: #e6b000;
+    --dark:    #1a1a1a;
+    --dark2:   #2e2e2e;
+    --mid:     #4a4a4a;
+    --muted:   #818181;
+    --light:   #f5f5f5;
+    --white:   #ffffff;
+    --border:  #e8e8e8;
+    --grad:    linear-gradient(135deg, #5defff, #1977fd);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--white);
+    color: var(--dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ─── NAV ───────────────────────────────── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .nav-logo {
+    font-size: 18px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--dark);
+  }
+  .nav-logo .plus { color: var(--muted); font-weight: 300; margin: 0 4px; }
+  .nav-cta {
+    background: var(--yellow);
+    color: var(--dark);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px; font-weight: 700;
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--yellow2); }
+
+  /* ─── HERO ───────────────────────────────── */
+  .hero {
+    min-height: 600px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 60px 48px 80px;
+    position: relative; overflow: hidden;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3C/svg%3E") no-repeat center bottom,
+      linear-gradient(to bottom, rgba(26,26,26,0) 30%, #1a1a1a 100%),
+      linear-gradient(135deg, #1a3a5c 0%, #0d1f35 50%, #1a1a1a 100%);
+    background-size: cover;
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1100px; margin: 0 auto; width: 100%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--yellow);
+    color: var(--dark);
+    padding: 6px 16px; border-radius: 4px;
+    font-size: 12px; font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 900; line-height: 1.1;
+    letter-spacing: -2px;
+    color: #fff;
+    max-width: 860px;
+    margin-bottom: 20px;
+  }
+  .hero h1 .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p.sub {
+    font-size: clamp(17px, 1.8vw, 22px);
+    color: rgba(255,255,255,0.75);
+    max-width: 580px;
+    margin-bottom: 40px; line-height: 1.65;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--yellow); color: var(--dark);
+    font-size: 16px; font-weight: 800;
+    padding: 16px 36px; border-radius: 6px;
+    border: none; cursor: pointer;
+    transition: background .2s, transform .15s;
+    font-family: inherit;
+  }
+  .btn-primary:hover { background: var(--yellow2); transform: translateY(-1px); }
+  .btn-outline {
+    border: 2px solid rgba(255,255,255,0.35);
+    color: #fff; font-size: 15px; font-weight: 600;
+    padding: 14px 28px; border-radius: 6px;
+    background: transparent; cursor: pointer;
+    font-family: inherit;
+    transition: border-color .2s;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.7); }
+
+  /* ─── STATS STRIP ─────────────────────────── */
+  .stats {
+    background: var(--dark);
+    display: flex; justify-content: center; flex-wrap: wrap;
+  }
+  .stat-item {
+    padding: 28px 48px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item .num {
+    font-size: 36px; font-weight: 900; letter-spacing: -1px;
+    color: var(--yellow); line-height: 1;
+  }
+  .stat-item .label {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    margin-top: 4px; text-transform: uppercase; letter-spacing: .5px;
+  }
+
+  /* ─── SECTION COMMON ─────────────────────── */
+  .section-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 96px 48px;
+  }
+  .section-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 16px;
+  }
+  h2.section-title {
+    font-size: clamp(32px, 4vw, 60px);
+    font-weight: 900; letter-spacing: -2px;
+    line-height: 1.05; color: var(--dark);
+    margin-bottom: 14px;
+  }
+  h2.section-title .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  p.section-desc {
+    color: var(--muted); font-size: 17px;
+    max-width: 560px; line-height: 1.7;
+    margin-bottom: 56px;
+  }
+
+  /* ─── COME FUNZIONA ─────────────────────── */
+  .steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden;
+  }
+  .step {
+    padding: 36px 28px;
+    border-right: 1px solid var(--border);
+    transition: background .2s;
+  }
+  .step:last-child { border-right: none; }
+  .step:hover { background: var(--light); }
+  .step-num {
+    font-size: 11px; font-weight: 800; letter-spacing: 2px;
+    color: var(--yellow2); text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .step-icon { font-size: 26px; margin-bottom: 14px; display: block; }
+  .step h3 { font-size: 16px; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
+  .step p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+  /* ─── COSA COPRE ─────────────────────────── */
+  .bg-light { background: var(--light); }
+  .covers-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .cover-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .cover-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+  .cover-card .icon {
+    width: 44px; height: 44px;
+    background: #fff3c0;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 16px;
+  }
+  .cover-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; color: var(--dark); }
+  .cover-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+  .cover-card .tag {
+    display: inline-block; margin-top: 14px;
+    background: #fffbe6; color: #a07800;
+    font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    padding: 3px 10px; border-radius: 4px;
+    border: 1px solid #fdc400;
+  }
+
+  /* ─── REQUISITI ─────────────────────────── */
+  .req-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .req-card {
+    padding: 32px 28px;
+    border-top: 4px solid var(--yellow);
+  }
+  .req-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 10px; color: var(--dark); }
+  .req-card p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+  /* ─── FAQ ───────────────────────────────── */
+  .faq-wrap { max-width: 760px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--border); padding: 28px 0; }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-item h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: var(--dark); }
+  .faq-item p { color: var(--muted); font-size: 15px; line-height: 1.7; }
+  .faq-item strong { color: var(--dark); }
+
+  /* ─── CTA / FORM ─────────────────────────── */
+  .cta-section {
+    background: var(--dark);
+    padding: 96px 48px;
+    text-align: center;
+  }
+  .cta-section h2 {
+    font-size: clamp(30px, 4vw, 54px);
+    font-weight: 900; letter-spacing: -2px; color: #fff;
+    max-width: 720px; margin: 0 auto 16px;
+  }
+  .cta-section h2 .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cta-section p.sub {
+    color: rgba(255,255,255,0.6); font-size: 17px;
+    max-width: 520px; margin: 0 auto 48px; line-height: 1.7;
+  }
+  .form-wrap {
+    max-width: 640px; margin: 0 auto;
+    background: #fff; border-radius: 16px;
+    padding: 44px 44px 40px; text-align: left;
+  }
+  .form-wrap h3 {
+    font-size: 20px; font-weight: 800; margin-bottom: 28px;
+    color: var(--dark); letter-spacing: -.5px;
+  }
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 16px;
+  }
+  .form-row.full { grid-template-columns: 1fr; }
+  .form-row > div { display: flex; flex-direction: column; gap: 6px; }
+  label { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  input, select {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 13px 16px;
+    color: var(--dark); font-size: 14px;
+    font-family: inherit; outline: none;
+    transition: border-color .2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus { border-color: var(--yellow); }
+  .form-submit {
+    width: 100%; margin-top: 24px;
+    background: var(--yellow); color: var(--dark);
+    font-size: 16px; font-weight: 800;
+    padding: 17px; border-radius: 8px;
+    border: none; cursor: pointer; font-family: inherit;
+    transition: background .2s, transform .15s;
+  }
+  .form-submit:hover { background: var(--yellow2); transform: translateY(-1px); }
+  .form-note {
+    color: var(--muted); font-size: 12px;
+    margin-top: 16px; text-align: center; line-height: 1.5;
+  }
+
+  /* ─── FOOTER ─────────────────────────────── */
+  footer {
+    background: #111; border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 48px; text-align: center;
+    color: rgba(255,255,255,0.4); font-size: 13px;
+  }
+  footer .brand { color: var(--yellow); font-weight: 700; }
+  footer a { color: rgba(255,255,255,0.4); margin: 0 12px; transition: color .2s; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+  footer p + p { margin-top: 10px; }
+
+  @media (max-width: 900px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+    .covers-grid { grid-template-columns: 1fr 1fr; }
+    .req-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    .hero { padding: 60px 20px 60px; }
+    .section-inner { padding: 64px 20px; }
+    .steps { grid-template-columns: 1fr; }
+    .step { border-right: none; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; }
+    .covers-grid { grid-template-columns: 1fr; }
+    .form-wrap { padding: 28px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .stats { flex-direction: column; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    footer { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    Fastweb<span class="plus">+</span>Vodafone
+  </div>
+  <a href="#contatto" class="nav-cta">Richiedi consulenza →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Fornitore abilitato MIMIT</div>
+    <h1>Fino a <span class="grad">€&nbsp;20.000</span><br>a fondo perduto<br>per cloud e cybersecurity</h1>
+    <p class="sub">Trasforma la tua PMI con il voucher del Ministero delle Imprese. Zero burocrazia: ci pensiamo noi dall'istruttoria all'attivazione.</p>
+    <div class="hero-actions">
+      <a href="#contatto"><button class="btn-primary">Verifica i requisiti →</button></a>
+      <a href="#come-funziona"><button class="btn-outline">Come funziona</button></a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><div class="num">€ 20k</div><div class="label">Contributo massimo a fondo perduto</div></div>
+  <div class="stat-item"><div class="num">50%</div><div class="label">Delle spese ammissibili coperte</div></div>
+  <div class="stat-item"><div class="num">0</div><div class="label">Anticipi richiesti alle PMI</div></div>
+  <div class="stat-item"><div class="num">24h</div><div class="label">Risposta per la prima consulenza</div></div>
+</div>
+
+<!-- COME FUNZIONA -->
+<div id="come-funziona">
+  <div class="section-inner">
+    <div class="section-tag">Come funziona</div>
+    <h2 class="section-title">4 passi per ottenere<br>il tuo <span class="grad">voucher</span></h2>
+    <p class="section-desc">Gestiamo noi l'intera pratica: dalla verifica dei requisiti all'attivazione dei servizi con il codice voucher in mano.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <span class="step-icon">🔍</span>
+        <h3>Verifica requisiti</h3>
+        <p>Controlliamo tipologia societaria, sede italiana e connessione ≥ 30 Mbps. La verifica è gratuita e senza impegno.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <span class="step-icon">📝</span>
+        <h3>Progetto e domanda</h3>
+        <p>Il nostro team prepara il progetto tecnico e compila la domanda sul portale Invitalia, senza stress per te.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <span class="step-icon">✅</span>
+        <h3>Approvazione voucher</h3>
+        <p>Invitalia istruisce la pratica (60–90 gg). Ricevi il codice voucher direttamente sul portale.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <span class="step-icon">🚀</span>
+        <h3>Attivazione servizi</h3>
+        <p>Usi il voucher per attivare i servizi cloud e security. Il contributo copre direttamente la fattura, zero anticipo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COSA COPRE -->
+<div class="bg-light">
+  <div class="section-inner">
+    <div class="section-tag">Spese ammissibili</div>
+    <h2 class="section-title">Cosa copre<br>il <span class="grad">voucher MIMIT</span></h2>
+    <p class="section-desc">Il voucher finanzia servizi digitali nelle 6 categorie previste dal decreto ministeriale.</p>
+    <div class="covers-grid">
+      <div class="cover-card">
+        <div class="icon">☁️</div>
+        <h3>Servizi Cloud</h3>
+        <p>IaaS, PaaS, SaaS su cloud certificati ACN. Infrastrutture, storage, elaborazione e ambienti di sviluppo.</p>
+        <span class="tag">Cloud</span>
+      </div>
+      <div class="cover-card">
+        <div class="icon">🛡️</div>
+        <h3>Cybersecurity</h3>
+        <p>Firewall gestito, EDR, antivirus enterprise, rilevamento intrusioni, vulnerability assessment e SIEM.</p>
+        <span class="tag">Security</span>
+      </div>
+      <div class="cover-card">
+        <div class="icon">🌐</div>
+        <h3>Connettività sicura</h3>
+        <p>VPN, SD-WAN, accesso remoto cifrato e soluzioni di rete per il lavoro ibrido e multi-sede.</p>
+        <span class="tag">Network</span>
+      </div>
+      <div class="cover-card">
+        <div class="icon">💾</div>
+        <h3>Backup &amp; Recovery</h3>
+        <p>Sistemi automatici di backup su cloud, replica geografica e disaster recovery con RTO/RPO definiti.</p>
+        <span class="tag">Resilienza</span>
+      </div>
+      <div class="cover-card">
+        <div class="icon">📱</div>
+        <h3>Software gestionale</h3>
+        <p>ERP, CRM, piattaforme di collaborazione e digitalizzazione dei processi aziendali in cloud.</p>
+        <span class="tag">Software</span>
+      </div>
+      <div class="cover-card">
+        <div class="icon">✍️</div>
+        <h3>PEC &amp; Firma digitale</h3>
+        <p>Posta certificata, firma digitale qualificata, conservazione documentale e identità digitale SPID/eIDAS.</p>
+        <span class="tag">Compliance</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REQUISITI -->
+<div class="section-inner">
+  <div class="section-tag">Requisiti di accesso</div>
+  <h2 class="section-title">La tua azienda<br>ha i <span class="grad">requisiti</span>?</h2>
+  <p class="section-desc">Tre condizioni da soddisfare per accedere al voucher. La verifica è gratuita e senza impegno.</p>
+  <div class="req-grid">
+    <div class="req-card">
+      <h3>PMI o lavoratore autonomo</h3>
+      <p>Micro, piccola o media impresa con sede legale o operativa in Italia. Inclusi liberi professionisti e lavoratori autonomi con Partita IVA attiva.</p>
+    </div>
+    <div class="req-card">
+      <h3>Connessione ≥ 30 Mbps</h3>
+      <p>L'impresa deve disporre di una connessione internet con banda minima garantita di 30 Mbps al momento della presentazione della domanda.</p>
+    </div>
+    <div class="req-card">
+      <h3>Sede operativa in Italia</h3>
+      <p>Sede legale o unità operativa sul territorio italiano. Le spese devono essere fatturate da fornitori abilitati e riferite ad attività in Italia.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="bg-light">
+  <div class="section-inner">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title" style="text-align:center;">Domande <span class="grad">frequenti</span></h2>
+    <p class="section-desc" style="text-align:center; max-width:100%; margin-bottom:40px;">Tutto quello che devi sapere prima di presentare la domanda.</p>
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <h3>Quanto vale il voucher?</h3>
+        <p>Il contributo è fino a <strong>€ 20.000 a fondo perduto</strong>, pari al <strong>50%</strong> delle spese ammissibili. L'importo dipende dal valore del progetto approvato da Invitalia.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Devo anticipare i soldi?</h3>
+        <p>No. Il voucher funziona come uno sconto diretto in fattura: Fastweb+Vodafone emette fattura al netto del contributo e recupera la quota voucher direttamente da Invitalia. <strong>Zero anticipi per la tua azienda.</strong></p>
+      </div>
+      <div class="faq-item">
+        <h3>Posso cumularlo con altri incentivi?</h3>
+        <p>Il voucher MIMIT è cumulabile con altri incentivi su spese diverse (es. Transizione 5.0, credito d'imposta R&amp;S), nel rispetto dei massimali de minimis. Verifichiamo la tua situazione in fase di consulenza.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Quanto tempo ci vuole per l'approvazione?</h3>
+        <p>L'istruttoria di Invitalia richiede tipicamente <strong>60–90 giorni</strong> dalla presentazione. Le domande sono valutate in ordine cronologico: prima si presenta, meglio è.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Fastweb+Vodafone è fornitore abilitato?</h3>
+        <p>Sì. Fastweb+Vodafone è iscritta nell'elenco fornitori abilitati sul portale Invitalia per le categorie cloud, cybersecurity e connettività. I servizi acquistati sono direttamente imputabili al voucher.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA FORM -->
+<div class="cta-section" id="contatto">
+  <h2>Scopri se puoi accedere al <span class="grad">voucher MIMIT</span></h2>
+  <p class="sub">Un consulente Fastweb+Vodafone ti ricontatta entro 24 ore per una verifica gratuita e senza impegno.</p>
+  <div class="form-wrap">
+    <h3>📋 Consulenza gratuita</h3>
+    <div class="form-row">
+      <div><label>Nome *</label><input type="text" placeholder="Mario"></div>
+      <div><label>Cognome *</label><input type="text" placeholder="Rossi"></div>
+    </div>
+    <div class="form-row">
+      <div><label>Email aziendale *</label><input type="email" placeholder="mario.rossi@azienda.it"></div>
+      <div><label>Telefono</label><input type="tel" placeholder="+39 02 1234567"></div>
+    </div>
+    <div class="form-row">
+      <div><label>Azienda *</label><input type="text" placeholder="Nome azienda"></div>
+      <div><label>Settore</label>
+        <select>
+          <option value="">Seleziona...</option>
+          <option>Manifatturiero</option>
+          <option>Commercio / Retail</option>
+          <option>Servizi professionali</option>
+          <option>Sanità / Pharma</option>
+          <option>Logistica / Trasporti</option>
+          <option>Altro</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row full">
+      <div><label>Servizio di interesse</label>
+        <select>
+          <option value="">Seleziona...</option>
+          <option>Cloud Managed</option>
+          <option>Cybersecurity as a Service</option>
+          <option>SD-WAN &amp; Connettività Sicura</option>
+          <option>Backup &amp; Disaster Recovery</option>
+          <option>Pacchetto completo cloud + security</option>
+        </select>
+      </div>
+    </div>
+    <button class="form-submit">Richiedi consulenza gratuita →</button>
+    <p class="form-note">🔒 Dati trattati ai sensi del GDPR &mdash; Nessuno spam, solo una chiamata di verifica.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p><span class="brand">Fastweb+Vodafone</span> &mdash; Fornitore abilitato MIMIT per cloud e cybersecurity</p>
+  <p><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a><a href="#">Termini e condizioni</a><a href="#">Contatti</a></p>
+  <p style="margin-top:16px; font-size:11px;">
+    Pagina a scopo dimostrativo. Le condizioni del voucher MIMIT sono soggette ad aggiornamenti del Ministero.
+    Verifica sempre su <a href="https://www.mimit.gov.it" style="color:#fdc400;">mimit.gov.it</a> e <a href="https://www.invitalia.it" style="color:#fdc400;">invitalia.it</a>.
+  </p>
+</footer>
+
+</body>
+</html>
